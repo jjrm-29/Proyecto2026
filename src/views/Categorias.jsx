@@ -5,6 +5,7 @@ import { supabase } from "../database/supabaseconfig";
 import ModalRegistroCategoria from "../components/categorias/ModalRegistroCategoria";
 import NotificacionOperacion from "../components/NotificacionOperacion";
 import TablaCategorias from "../components/categorias/TablaCategorias";
+import TarjetaCategoria from "../components/categorias/TarjetaCategoria";
 
 const Categorias = () => {
   const [toast, setToast] = useState({
@@ -51,6 +52,14 @@ const Categorias = () => {
   const manejoCambioInput = (e) => {
     const { name, value } = e.target;
     setNuevaCategoria((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const manejoCambioInputEdicion = (e) => {
+    const { name, value } = e.target;
+    setCategoriaEditar((prev) => ({
       ...prev,
       [name]: value,
     }));
@@ -156,6 +165,15 @@ const Categorias = () => {
             <i className="bi bi-bookmark-plus-fill me-2"></i> Categorías
           </h3>
         </Col>
+
+        <Col xs={12} sm={12} md={12} className="d-lg-none">
+          <TarjetaCategoria
+            categorias={categorias}
+            abrirModalEdicion={abrirModalEdicion}
+            abrirModalEliminacion={abrirModalEliminacion}
+          />
+        </Col>
+
 
         <Col xs={3} sm={5} md={5} lg={5} className="text-end">
           <Button onClick={() => setMostrarModal(true)} size="md">
