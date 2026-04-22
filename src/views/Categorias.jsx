@@ -166,15 +166,6 @@ const Categorias = () => {
           </h3>
         </Col>
 
-        <Col xs={12} sm={12} md={12} className="d-lg-none">
-          <TarjetaCategoria
-            categorias={categorias}
-            abrirModalEdicion={abrirModalEdicion}
-            abrirModalEliminacion={abrirModalEliminacion}
-          />
-        </Col>
-
-
         <Col xs={3} sm={5} md={5} lg={5} className="text-end">
           <Button onClick={() => setMostrarModal(true)} size="md">
             <i className="bi bi-plus-lg"></i>
@@ -183,6 +174,15 @@ const Categorias = () => {
             </span>
           </Button>
         </Col>
+
+        <Col xs={12} sm={12} md={12} className="d-lg-none">
+          <TarjetaCategoria
+            categorias={categorias}
+            abrirModalEdicion={abrirModalEdicion}
+            abrirModalEliminacion={abrirModalEliminacion}
+          />
+        </Col>
+        
       </Row>
 
       {cargando && (
