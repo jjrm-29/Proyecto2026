@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Container, Row, Col, Button, Spinner } from "react-bootstrap";
+import { Container, Row, Col, Button, Spinner, Alert } from "react-bootstrap";
 import { supabase } from "../database/supabaseconfig";
 
 import ModalRegistroCategoria from "../components/categorias/ModalRegistroCategoria";
@@ -8,6 +8,8 @@ import ModalEliminacionCategoria from "../components/categorias/ModalEliminacion
 import NotificacionOperacion from "../components/NotificacionOperacion";
 import TablaCategorias from "../components/categorias/TablaCategorias";
 import TarjetaCategoria from "../components/categorias/TarjetaCategoria";
+import CuadroBusquedas from "../components/busquedas/CuadroBusquedas";
+import Paginacion from "../components/ordenamiento/Paginacio";
 
 const Categorias = () => {
   const [toast, setToast] = useState({
@@ -23,6 +25,12 @@ const Categorias = () => {
   const [mostrarModalEdicion, setMostrarModalEdicion] = useState(false);
   const [mostrarModalEliminacion, setMostrarModalEliminacion] = useState(false);
 
+  const [textoBusqueda, setTextoBusqueda] = useState("");
+  const [categoriasFiltradas, setCategoriasFiltradas] = useState([]);
+
+  const [registrosPorPagina, establecerRegistrosPorPagina] = useState(5);
+  const [paginaActual, establecerPaginaActual] = useState(1);
+
   const [categoriaAEliminar, setCategoriaAEliminar] = useState(null);
 
   const [categoriaEditar, setCategoriaEditar] = useState({
@@ -31,10 +39,34 @@ const Categorias = () => {
     descripcion_categoria: "",
   });
 
+  const manejarBusqueda = (e) => {
+    setTextoBusqueda(e.target.value);
+  };
+
+  useEffect(() => {
+    if (!textoBusqueda.trim()) {
+      setCategoriasFiltradas(categorias);
+    } else {
+      const textoLower = textoBusqueda.toLowerCase().trim();
+      const filtradas = categorias.filter(
+        (cat) =>
+          cat.nombre_categoria.toLowerCase().includes(textoLower) ||
+          (cat.descripcion_categoria &&
+            cat.descripcion_categoria.toLowerCase().includes(textoLower))
+      );
+      setCategoriasFiltradas(filtradas);
+    }
+  }, [textoBusqueda, categorias]);
+
   const [nuevaCategoria, setNuevaCategoria] = useState({
     nombre_categoria: "",
     descripcion_categoria: "",
   });
+
+  const categoriaPaginadas = categoriasFiltradas.slice(
+    (paginaActual - 1) * registrosPorPagina,
+    paginaActual * registrosPorPagina
+  );
 
   const abrirModalEdicion = (categoria) => {
     setCategoriaEditar({
@@ -263,29 +295,41 @@ const Categorias = () => {
           </Button>
         </Col>
 
+        <Row className="mb-4">
+          <Col md={6} lg={5}>
+            <CuadroBusquedas
+              textBusqueda={textoBusqueda}
+              manejarCambioBusqueda={manejarBusqueda}
+              placeholder="Buscar por nombre o descripcion..."
+            />
+          </Col>
+        </Row>
+
+        {!cargando && textoBusqueda.trim() && categoriasFiltradas.length === 0 && (
+          <Row className="mb-4">
+            <Col>
+              <Alert variant="info" className="text-center">
+                <i className="bi bi-info-circle me-2"></i>
+                No se encontraron categorias que coincidan con "{textoBusqueda}".
+              </Alert>
+            </Col>
+          </Row>
+        )}
+
         <Col xs={12} sm={12} md={12} className="d-lg-none">
           <TarjetaCategoria
-            categorias={categorias}
+            categorias={categoriaPaginadas}
             abrirModalEdicion={abrirModalEdicion}
             abrirModalEliminacion={abrirModalEliminacion}
           />
         </Col>
       </Row>
 
-      {cargando && (
-        <Row className="text-center my-5">
-          <Col>
-            <Spinner animation="border" variant="success" size="lg" />
-            <p className="mt-3 text-muted">Cargando categorías...</p>
-          </Col>
-        </Row>
-      )}
-
-      {!cargando && categorias.length > 0 && (
+      {!cargando && categoriasFiltradas.length > 0 && (
         <Row>
           <Col lg={12} className="d-none d-lg-block">
             <TablaCategorias
-              categorias={categorias}
+              categorias={categoriaPaginadas}
               abrirModalEdicion={abrirModalEdicion}
               abrirModalEliminacion={abrirModalEliminacion}
             />
@@ -295,35 +339,20 @@ const Categorias = () => {
 
       <hr />
 
-      <ModalRegistroCategoria
-        mostrarModal={mostrarModal}
-        setMostrarModal={setMostrarModal}
-        nuevaCategoria={nuevaCategoria}
-        manejoCambioInput={manejoCambioInput}
-        agregarCategoria={agregarCategoria}
-      />
+      {categoriasFiltradas.length > 0 && (
+        <Paginacion
+          registrosPorPagina={registrosPorPagina}
+          totalRegistros={categoriasFiltradas.length}
+          paginaActual={paginaActual}
+          establecerPaginaActual={establecerPaginaActual}
+          establecerRegistrosPorPagina={establecerRegistrosPorPagina}
+        />
+      )}
 
-      <NotificacionOperacion
-        mostrar={toast.mostrar}
-        mensaje={toast.mensaje}
-        tipo={toast.tipo}
-        onCerrar={() => setToast({ ...toast, mostrar: false })}
-      />
-
-      <ModalEdicionCategoria
-        mostrarModalEdicion={mostrarModalEdicion}
-        setMostrarModalEdicion={setMostrarModalEdicion}
-        categoriaEditar={categoriaEditar}
-        manejoCambioInputEdicion={manejoCambioInputEdicion}
-        actualizarCategoria={actualizarCategoria}
-      />
-
-      <ModalEliminacionCategoria
-        mostrarModalEliminacion={mostrarModalEliminacion}
-        setMostrarModalEliminacion={setMostrarModalEliminacion}
-        eliminarCategoria={eliminarCategoria}
-        categoria={categoriaAEliminar}
-      />
+      <ModalRegistroCategoria {...{ mostrarModal, setMostrarModal, nuevaCategoria, manejoCambioInput, agregarCategoria }} />
+      <NotificacionOperacion {...toast} onCerrar={() => setToast({ ...toast, mostrar: false })} />
+      <ModalEdicionCategoria {...{ mostrarModalEdicion, setMostrarModalEdicion, categoriaEditar, manejoCambioInputEdicion, actualizarCategoria }} />
+      <ModalEliminacionCategoria {...{ mostrarModalEliminacion, setMostrarModalEliminacion, eliminarCategoria, categoria: categoriaAEliminar }} />
     </Container>
   );
 };
