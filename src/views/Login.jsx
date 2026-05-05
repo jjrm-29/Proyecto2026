@@ -46,19 +46,17 @@ function Login() {
     }
   }, [navegar]);
 
-  const estiloContenedor = {
-    postition: "fixed",
-    top: 0,
-    left: 0,
-    width: "200%",
-    height: "108%",
-    display: "flex",
-    justifycontent: "center",
-    alignItems: "center",
-    background: "linear-gradient(135deg, #FFDEE9, #B5FFFC)",
-    overflow: "hidden",
-    padding: "200px",
-  };
+const estiloContenedor = {
+  position: "fixed",
+  top: 0,
+  left: 0,
+  width: "100%",
+  height: "100vh",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  background: "linear-gradient(135deg, #FFDEE9, #B5FFFC)",
+};
 
   return (
     <div style={estiloContenedor}>
