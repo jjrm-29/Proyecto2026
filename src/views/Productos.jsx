@@ -3,10 +3,12 @@ import { Container, Row, Col, Button, Alert, Spinner } from "react-bootstrap";
 import { supabase } from "../database/supabaseconfig";
 import ModalRegistroProducto from "../components/productos/ModalRegistroProducto";
 import ModalEliminacionProducto from "../components/productos/ModalEliminacionProducto";
+import ModalEdicionProducto from "../components/productos/ModalEdicionProducto";
 import NotificacionOperacion from "../components/NotificacionOperacion";
 import CuadroBusquedas from "../components/busquedas/CuadroBusquedas";
 import TablaProductos from "../components/productos/TablaProducto";
 import Paginacion from "../components/ordenamiento/Paginacion";
+import TarjetasProductos from "../components/productos/TarjetaProducto"
 
 const Productos = () => {
 
@@ -54,6 +56,16 @@ const Productos = () => {
     tipo: "",
   });
 
+  const abrirModalEdicion = (prod) => {
+    setProductoEditar(prod);
+    setMostrarModalEdicion(true);
+  };
+
+  const abrirModalEliminacion = (prod) => {
+    setProductoAEliminar(prod);
+    setMostrarModalEliminacion(true);
+  };
+
   const manejoCambioInput = (e) => {
     const { name, value } = e.target;
 
@@ -61,6 +73,20 @@ const Productos = () => {
       ...prev,
       [name]: value,
     }));
+  };
+
+  const manejoCambioInputEdicion = (e) => {
+    const { name, value } = e.target;
+    setProductoEditar((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const manejoCambioArchivoActualizar = (e) => {
+    const archivo = e.target.files[0];
+    if (archivo && archivo.type.startsWith("image/")) {
+      setProductoEditar((prev) => ({ ...prev, archivo }));
+    } else {
+      alert("Selecciona una imagen válida (JPG, PNG, etc.)");
+    }
   };
 
   const manejoCambioArchivo = (e) => {
@@ -134,6 +160,77 @@ const Productos = () => {
         mensaje: "Error al eliminar producto",
         tipo: "error",
       });
+    }
+  };
+
+  const actualizarProducto = async () => {
+    try {
+      if (
+        !productoEditar.nombre_producto.trim() ||
+        !productoEditar.categoria_producto ||
+        !productoEditar.precio_venta
+      ) {
+        setToast({
+          mostrar: true,
+          mensaje: "Completa los campos obligatorios",
+          tipo: "advertencia",
+        });
+        return;
+      }
+
+      setMostrarModalEdicion(false);
+
+      let datosActualizados = {
+        nombre_producto: productoEditar.nombre_producto,
+        descripcion_producto: productoEditar.descripcion_producto || null,
+        categoria_producto: productoEditar.categoria_producto,
+        precio_venta: parseFloat(productoEditar.precio_venta),
+        url_imagen: productoEditar.url_imagen,
+      };
+
+      if (productoEditar.archivo) {
+        const nombreArchivo = `${Date.now()}_${productoEditar.archivo.name}`;
+
+        const { error: uploadError } = await supabase.storage
+          .from("imagenes_productos")
+          .upload(nombreArchivo, productoEditar.archivo);
+
+        if (uploadError) throw uploadError;
+
+        const { data: urlData } = supabase.storage
+          .from("imagenes_productos")
+          .getPublicUrl(nombreArchivo);
+        datosActualizados.url_imagen = urlData.publicUrl;
+
+        if (productoEditar.url_imagen) {
+          const nombreAnterior = productoEditar.url_imagen.split("/").pop().split("?")[0];
+          await supabase.storage.from("imagenes_productos").remove([nombreAnterior]).catch(() => { });
+        }
+      }
+
+      const { error } = await supabase
+        .from("productos")
+        .update(datosActualizados)
+        .eq("id_producto", productoEditar.id_producto);
+
+      if (error) throw error;
+
+      await cargarProductos();
+
+      setProductoEditar({
+        id_producto: "",
+        nombre_producto: "",
+        descripcion_producto: "",
+        categoria_producto: "",
+        precio_venta: "",
+        url_imagen: "",
+        archivo: null,
+      });
+
+      setToast({ mostrar: true, mensaje: "Producto actualizado correctamente", tipo: "exito" });
+    } catch (err) {
+      console.error("Error al actualizar:", err);
+      setToast({ mostrar: true, mensaje: "Error al actualizar producto", tipo: "error" });
     }
   };
 
@@ -279,17 +376,29 @@ const Productos = () => {
         <Col>
           <TablaProductos
             productos={productosPaginadas}
-            abrirModalEdicion={(prod) => {
-              setProductoEditar(prod);
-              setMostrarModalEdicion(true);
-            }}
-            abrirModalEliminacion={(prod) => {
-              setProductoAEliminar(prod);
-              setMostrarModalEliminacion(true);
-            }}
+            abrirModalEdicion={abrirModalEdicion}
+            abrirModalEliminacion={abrirModalEliminacion}
           />
         </Col>
       </Row>
+
+      <Col xs={12} md={12} lg={12}>
+        {cargando ? (
+          <div className="text-center my-5">
+            <div className="spinner-border text-primary" role="status">
+              <span className="visually-hidden">Cargando...</span>
+            </div>
+            <p className="mt-3">Cargando productos...</p>
+          </div>
+        ) : productosFiltrados.length > 0 ? (
+          <TarjetasProductos
+            productos={productosFiltrados}
+            categorias={categorias}
+            abrirModalEdicion={abrirModalEdicion}
+            abrirModalEliminacion={abrirModalEliminacion}
+          />
+        ) : null}
+      </Col>
 
       <hr />
 
@@ -310,6 +419,16 @@ const Productos = () => {
         manejoCambioInput={manejoCambioInput}
         manejoCambioArchivo={manejoCambioArchivo}
         agregarProducto={agregarProducto}
+        categorias={categorias}
+      />
+
+      <ModalEdicionProducto
+        mostrarModalEdicion={mostrarModalEdicion}
+        setMostrarModalEdicion={setMostrarModalEdicion}
+        productoEditar={productoEditar}
+        manejoCambioInputEdicion={manejoCambioInputEdicion}
+        manejoCambioArchivoActualizar={manejoCambioArchivoActualizar}
+        actualizarProducto={actualizarProducto}
         categorias={categorias}
       />
 
