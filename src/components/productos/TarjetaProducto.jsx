@@ -61,11 +61,10 @@ const TarjetasProductos = ({
                 aria-label={`Producto ${prod.nombre_producto}`}
               >
                 <Card.Body
-                  className={`p-2 tarjeta-producto-cuerpo ${
-                    tarjetaActiva
+                  className={`p-2 tarjeta-producto-cuerpo ${tarjetaActiva
                       ? "tarjeta-producto-cuerpo-activo"
                       : "tarjeta-producto-cuerpo-inactivo"
-                  }`}
+                    }`}
                 >
                   <Row className="align-items-center gx-3">
                     <Col xs={2} className="px-2">

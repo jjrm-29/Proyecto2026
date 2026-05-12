@@ -9,6 +9,7 @@ import Productos from "./views/Productos";
 import Login from "./views/Login";
 import RutasProtegida from "./components/rutas/RutasProtegida";
 import Pagina404 from "./views/Pagina404";
+import Empleados from "./views/Empleados";
 
 import "./App.css";
 
@@ -48,6 +49,15 @@ const App = () => {
                 <Productos />
               </RutasProtegida>
             } 
+          />
+          
+          <Route
+            path="/empleados"
+            element={
+              <RutasProtegida>
+                <Empleados />
+              </RutasProtegida>
+            }
           />
 
           <Route path="*" element={<Pagina404 />} />

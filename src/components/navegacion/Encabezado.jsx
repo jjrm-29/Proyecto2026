@@ -59,6 +59,11 @@ const Encabezado = () => {
                 <Nav.Link onClick={() => manejarNavegacion("/productos")}>
                     <strong>Productos</strong>
                 </Nav.Link>
+
+                <Nav.Link onClick={() => manejarNavegacion("/empleados")}>
+                    <strong>Empleados</strong>
+                </Nav.Link>
+
                 <Nav.Link onClick={() => manejarNavegacion("/catalogo")}>
                     <strong>Catálogo</strong>
                 </Nav.Link>
