@@ -19,9 +19,9 @@ function Login() {
       }
 
       const { data, error: errorSupabase } = await supabase.auth.signInWithPassword({
-        email: usuario.trim().toLowerCase(),
-        password: contrasena
-      });
+  email: usuario.trim().toLowerCase(),
+  password: contrasena
+});
 
       if (errorSupabase) {
         setError("Usuario o contraseña incorrectos");
@@ -46,17 +46,17 @@ function Login() {
     }
   }, [navegar]);
 
-  const estiloContenedor = {
-    position: "fixed",
-    top: 0,
-    left: 0,
-    width: "100%",
-    height: "100vh",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    background: "linear-gradient(135deg, #FFDEE9, #B5FFFC)",
-  };
+const estiloContenedor = {
+  position: "fixed",
+  top: 0,
+  left: 0,
+  width: "100%",
+  height: "100vh",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  background: "linear-gradient(135deg, #FFDEE9, #B5FFFC)",
+};
 
   return (
     <div style={estiloContenedor}>

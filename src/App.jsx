@@ -6,6 +6,8 @@ import Inicio from "./views/Inicio";
 import Categorias from "./views/Categorias";
 import Catalogo from "./views/Catalogo";
 import Productos from "./views/Productos";
+import Clientes from "./views/Clientes";  
+import Ventas from "./views/Ventas";
 import Login from "./views/Login";
 import RutasProtegida from "./components/rutas/RutasProtegida";
 import Pagina404 from "./views/Pagina404";
@@ -39,6 +41,14 @@ const App = () => {
               </RutasProtegida>
             } 
           />
+          <Route 
+            path="/clientes" 
+            element={
+              <RutasProtegida>
+                <Clientes />
+              </RutasProtegida>
+            } 
+          />  
           
           <Route path="/catalogo" element={<Catalogo />} />
           
@@ -56,6 +66,15 @@ const App = () => {
             element={
               <RutasProtegida>
                 <Empleados />
+              </RutasProtegida>
+            }
+          />
+
+          <Route
+            path="/ventas"
+            element={
+              <RutasProtegida>
+                <Ventas />
               </RutasProtegida>
             }
           />

@@ -1,98 +1,239 @@
-.margen-superior-main {
-  margin-top: 50px;
-  padding: 20px;
+:root {
+  --color-primario: #2563eb;
+  --color-secundario: #1e40af;
+  --color-acento: #38bdf8;
+  --color-exito: #22c55e;
+  --color-peligro: #ef4444;
+  --color-fondo: #f4f7fb;
+  --color-blanco: #ffffff;
+  --color-texto: #1f2937;
+  --color-texto-secundario: #6b7280;
+  --sombra-suave: 0 8px 25px rgba(15, 23, 42, 0.08);
+  --sombra-hover: 0 12px 30px rgba(37, 99, 235, 0.18);
+  --radio: 18px;
+  --transicion: all 0.25s ease;
 }
 
+/* ==================== GENERAL ==================== */
+
+body {
+  background: var(--color-fondo);
+  font-family: "Segoe UI", sans-serif;
+  color: var(--color-texto);
+}
+
+.margen-superior-main {
+  margin-top: 45px;
+  padding: 25px;
+}
+
+/* ==================== NAVBAR ==================== */
+
 .color-navbar {
-  background-color: #1068db !important;
-  background-image: linear-gradient(90deg, #121b96 0%, #2889b6 50%, #2697cc 100%);
+  background: linear-gradient(
+    135deg,
+    #0f172a 0%,
+    #1e3a8a 45%,
+    #2563eb 100%
+  ) !important;
+
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
 }
 
 .color-texto-marca {
-  color: #1e3d87 !important;
-  font-size: 18px;
+  color: #ffffff !important;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
 }
 
-.tarjeta-categoria-contenedor {
+/* ==================== TARJETAS GENERALES ==================== */
+
+.tarjeta-categoria-contenedor,
+.tarjeta-empleado-contenedor,
+.tarjeta-cliente-contenedor,
+.tarjeta-venta-contenedor {
   position: relative;
   overflow: hidden;
+  cursor: pointer;
+  border-radius: var(--radio);
+  background: var(--color-blanco);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  box-shadow: var(--sombra-suave);
+  transition: var(--transicion);
 }
 
-.tarjeta-categoria-cuerpo {
-  transition: opacity 150ms ease;
+.tarjeta-categoria-contenedor:hover,
+.tarjeta-empleado-contenedor:hover,
+.tarjeta-cliente-contenedor:hover,
+.tarjeta-venta-contenedor:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--sombra-hover);
 }
 
-.tarjeta-categoria-cuerpo-activo {
-  opacity: 0.4;
+/* ==================== CUERPOS ==================== */
+
+.tarjeta-categoria-cuerpo,
+.tarjeta-empleado-cuerpo,
+.tarjeta-cliente-cuerpo,
+.tarjeta-venta-cuerpo {
+  transition: var(--transicion);
+  padding: 18px;
 }
 
-.tarjeta-categoria-cuerpo-inactivo {
+.tarjeta-categoria-cuerpo-activo,
+.tarjeta-empleado-cuerpo-activo,
+.tarjeta-cliente-cuerpo-activo,
+.tarjeta-venta-cuerpo-activo {
+  opacity: 0.35;
+  filter: blur(1px);
+}
+
+.tarjeta-categoria-cuerpo-inactivo,
+.tarjeta-empleado-cuerpo-inactivo,
+.tarjeta-cliente-cuerpo-inactivo,
+.tarjeta-venta-cuerpo-inactivo {
   opacity: 1;
 }
 
-.tarjeta-categoria-placeholder-imagen {
-  height: 50px;
-  width: 50px;
+/* ==================== PLACEHOLDER ==================== */
+
+.tarjeta-categoria-placeholder-imagen,
+.tarjeta-empleado-placeholder-imagen,
+.tarjeta-cliente-placeholder-imagen,
+.tarjeta-venta-placeholder-imagen {
+  width: 65px;
+  height: 65px;
+  line-height: 65px;
+  border-radius: 50%;
+  text-align: center;
+  background: linear-gradient(
+    135deg,
+    var(--color-primario),
+    var(--color-acento)
+  );
+
+  color: white;
+  font-size: 24px;
+  font-weight: bold;
+  margin: auto;
+  box-shadow: 0 6px 15px rgba(37, 99, 235, 0.25);
 }
 
-.tarjeta-categoria-capa {
+/* ==================== CAPAS ==================== */
+
+.tarjeta-categoria-capa,
+.tarjeta-empleado-capa,
+.tarjeta-cliente-capa,
+.tarjeta-venta-capa {
   position: absolute;
   inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 50;
-  background: rgba(255, 255, 255, 0.25);
-  padding: 8px;
+
+  background: rgba(15, 23, 42, 0.35);
+  backdrop-filter: blur(4px);
+
+  transition: var(--transicion);
 }
 
-.tarjeta-categoria-botones-capa {
-  background: rgba(255, 255, 255, 0.95);
-  border-radius: 8px;
-  padding: 6px;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
-}
+/* ==================== BOTONES ==================== */
 
-.tarjeta-empleado-contenedor {
-  position: relative;
-  cursor: pointer;
-}
-
-.tarjeta-empleado-cuerpo {
-  transition: opacity 150ms ease;
-}
-
-.tarjeta-empleado-cuerpo-activo {
-  opacity: 0.4;
-}
-
-.tarjeta-empleado-cuerpo-inactivo {
-  opacity: 1;
-}
-
-.tarjeta-empleado-placeholder-imagen {
-  width: 60px;
-  height: 60px;
-  line-height: 60px;
-  text-align: center;
-}
-
-.tarjeta-empleado-capa {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(255, 255, 255, 0.5);
+.tarjeta-categoria-botones-capa,
+.tarjeta-empleado-botones-capa,
+.tarjeta-cliente-botones-capa,
+.tarjeta-venta-botones-capa {
+  background: rgba(255, 255, 255, 0.96);
+  border-radius: 14px;
+  padding: 10px;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 10;
+  gap: 10px;
+
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.15);
+
+  animation: aparecer 0.2s ease;
 }
 
-.tarjeta-empleado-botones-capa {
-  background: rgba(255, 255, 255, 0.95);
-  border-radius: 8px;
-  padding: 6px;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+.tarjeta-categoria-botones-capa button,
+.tarjeta-empleado-botones-capa button,
+.tarjeta-cliente-botones-capa button,
+.tarjeta-venta-botones-capa button {
+  border-radius: 12px !important;
+  transition: var(--transicion);
+}
+
+.tarjeta-categoria-botones-capa button:hover,
+.tarjeta-empleado-botones-capa button:hover,
+.tarjeta-cliente-botones-capa button:hover,
+.tarjeta-venta-botones-capa button:hover {
+  transform: scale(1.08);
+}
+
+/* ==================== ANIMACIONES ==================== */
+
+@keyframes aparecer {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ==================== TABLAS ==================== */
+
+.table {
+  border-radius: var(--radio);
+  overflow: hidden;
+}
+
+.table thead {
+  background: linear-gradient(
+    135deg,
+    #1e293b,
+    #334155
+  );
+
+  color: white;
+}
+
+.table tbody tr {
+  transition: var(--transicion);
+}
+
+.table tbody tr:hover {
+  background-color: rgba(37, 99, 235, 0.06);
+}
+
+/* ==================== BOTONES GENERALES ==================== */
+
+.btn {
+  border-radius: 12px;
+  font-weight: 600;
+  transition: var(--transicion);
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+/* ==================== SCROLL ==================== */
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #94a3b8;
+  border-radius: 20px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #64748b;
 }
