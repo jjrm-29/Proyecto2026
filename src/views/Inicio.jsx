@@ -759,7 +759,7 @@ const Inicio = () => {
                           key={`cell-${i}`}
                           fill={
                             COLORES[
-                              i % COLORES.length
+                            i % COLORES.length
                             ]
                           }
                         />
