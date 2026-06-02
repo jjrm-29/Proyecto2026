@@ -8,6 +8,7 @@ import Catalogo from "./views/Catalogo";
 import Productos from "./views/Productos";
 import Clientes from "./views/Clientes";  
 import Ventas from "./views/Ventas";
+import Dashboard from "./views/Dashboard";
 import Login from "./views/Login";
 import RutasProtegida from "./components/rutas/RutasProtegida";
 import Pagina404 from "./views/Pagina404";
@@ -75,6 +76,15 @@ const App = () => {
             element={
               <RutasProtegida>
                 <Ventas />
+              </RutasProtegida>
+            }
+          />
+
+          <Route
+            path="/dashboard"
+            element={
+              <RutasProtegida>
+                <Dashboard />
               </RutasProtegida>
             }
           />

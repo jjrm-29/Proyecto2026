@@ -80,6 +80,10 @@ const Encabezado = () => {
                     <strong>Catálogo</strong>
                 </Nav.Link>
 
+                <Nav.Link onClick={() => manejarNavegacion("/dashboard")}>
+                    <strong>Dashboard</strong>
+                </Nav.Link>
+
                 <Nav.Link onClick={() => setMostrarChatIA(true)}>
                     <i className="bi bi-robot me-2"></i>
                     Consultas IA
