@@ -23,9 +23,12 @@ const ModalRegistroEmpleado = ({
   };
 
   return (
-    <Modal show={mostrarModal} onHide={() => setMostrarModal(false)} backdrop="static" centered>
+    <Modal show={mostrarModal} onHide={() => setMostrarModal(false)} backdrop="static" centered contentClassName="modal-app">
       <Modal.Header closeButton>
-        <Modal.Title>Nuevo Empleado</Modal.Title>
+        <Modal.Title>
+          <i className="bi bi-person-plus-fill"></i>
+          Nuevo Empleado
+        </Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form>

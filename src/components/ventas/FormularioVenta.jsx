@@ -40,28 +40,16 @@ const FormularioVenta = ({
       backdrop="static"
       size="xl"
       centered
+      contentClassName="modal-app modal-app--venta"
     >
-      <Modal.Header
-        closeButton
-        className="border-0"
-        style={{
-          background: "linear-gradient(135deg, #0f172a, #1e40af)",
-          color: "#fff",
-          borderRadius: "16px 16px 0 0"
-        }}
-      >
-        <Modal.Title className="fw-bold">
-          <i className="bi bi-receipt-cutoff me-2"></i>
+      <Modal.Header closeButton>
+        <Modal.Title>
+          <i className="bi bi-receipt-cutoff"></i>
           {ventaAEditar ? "Editar Venta" : "Nueva Venta"}
         </Modal.Title>
       </Modal.Header>
 
-      <Modal.Body
-        style={{
-          background: "#f4f7fb",
-          padding: "25px"
-        }}
-      >
+      <Modal.Body>
         <Row className="g-4">
 
           {/* === FORMULARIO === */}
@@ -400,21 +388,10 @@ const FormularioVenta = ({
         </Row>
       </Modal.Body>
 
-      <Modal.Footer
-        className="border-0"
-        style={{
-          background: "#f8fafc",
-          borderRadius: "0 0 16px 16px",
-          padding: "20px"
-        }}
-      >
+      <Modal.Footer>
         <Button
           variant="secondary"
           onClick={() => setMostrar(false)}
-          style={{
-            borderRadius: "12px",
-            padding: "10px 22px"
-          }}
         >
           Cancelar
         </Button>
@@ -427,19 +404,9 @@ const FormularioVenta = ({
             !empleadoSeleccionado ||
             detalles.length === 0
           }
-          style={{
-            borderRadius: "12px",
-            padding: "10px 22px",
-            border: "none",
-            background:
-              "linear-gradient(135deg, #2563eb, #1d4ed8)"
-          }}
         >
           <i className="bi bi-check-circle me-2"></i>
-
-          {ventaAEditar
-            ? "Actualizar Venta"
-            : "Registrar Venta"}
+          {ventaAEditar ? "Actualizar Venta" : "Registrar Venta"}
         </Button>
       </Modal.Footer>
     </Modal>

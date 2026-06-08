@@ -23,9 +23,12 @@ const ModalEdicionEmpleado = ({
   };
 
   return (
-    <Modal show={mostrarModalEdicion} onHide={() => setMostrarModalEdicion(false)} backdrop="static" centered>
+    <Modal show={mostrarModalEdicion} onHide={() => setMostrarModalEdicion(false)} backdrop="static" centered contentClassName="modal-app">
       <Modal.Header closeButton>
-        <Modal.Title>Editar Empleado</Modal.Title>
+        <Modal.Title>
+          <i className="bi bi-pencil-square"></i>
+          Editar Empleado
+        </Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form>

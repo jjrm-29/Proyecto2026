@@ -5,8 +5,7 @@ import {
   Col,
   Button,
   Spinner,
-  Alert,
-  Card
+  Alert
 } from "react-bootstrap";
 
 import { supabase } from "../database/supabaseconfig";
@@ -456,107 +455,30 @@ const Clientes = () => {
   // =========================
 
   return (
-
-    <Container
-      fluid
-      className="py-4 px-3 px-md-4"
-      style={{
-        minHeight: "100vh",
-        background:
-          "linear-gradient(135deg, #f4f7ff 0%, #eef3ff 40%, #dbeafe 100%)"
-      }}
-    >
-
-      <Card
-        className="border-0 shadow-lg rounded-4 overflow-hidden"
-        style={{
-          background:
-            "rgba(255,255,255,0.92)",
-          backdropFilter: "blur(10px)"
-        }}
-      >
-
-        <Card.Body className="p-4">
-
-          {/* HEADER */}
-
-          <Row className="align-items-center mb-4">
-
-            <Col
-              xs={12}
-              md={7}
-              className="mb-3 mb-md-0"
-            >
-
-              <div className="d-flex align-items-center">
-
-                <div
-                  className="d-flex align-items-center justify-content-center rounded-4 shadow-sm me-3"
-                  style={{
-                    width: "65px",
-                    height: "65px",
-                    background:
-                      "linear-gradient(135deg, #2563eb, #1e40af)"
-                  }}
-                >
-
-                  <i
-                    className="bi bi-people-fill text-white"
-                    style={{
-                      fontSize: "28px"
-                    }}
-                  ></i>
-
-                </div>
-
-                <div>
-
-                  <h2 className="fw-bold mb-1 text-dark">
-
-                    Clientes
-
-                  </h2>
-
-                  <p className="text-muted mb-0">
-
-                    Gestión y administración de clientes
-
-                  </p>
-
-                </div>
-
+    <Container fluid className="vista-contenedor px-0">
+      <div className="vista-panel">
+          <header className="vista-encabezado">
+            <div className="vista-encabezado__titulo-grupo">
+              <div className="vista-encabezado__icono" aria-hidden="true">
+                <i className="bi bi-people-fill"></i>
               </div>
-
-            </Col>
-
-            <Col
-              xs={12}
-              md={5}
-              className="text-md-end"
-            >
-
+              <div>
+                <h2>Clientes</h2>
+                <p className="vista-encabezado__subtitulo">
+                  Gestión y administración de clientes
+                </p>
+              </div>
+            </div>
+            <div className="vista-encabezado__acciones">
               <Button
-                onClick={() =>
-                  setMostrarModal(true)
-                }
-
-                className="rounded-4 px-4 py-2 fw-semibold shadow-sm border-0"
-
-                style={{
-                  background:
-                    "linear-gradient(135deg, #2563eb, #1d4ed8)"
-                }}
+                variant="primary"
+                onClick={() => setMostrarModal(true)}
               >
-
                 <i className="bi bi-plus-lg me-2"></i>
-
-                Nuevo Cliente
-
+                Nuevo cliente
               </Button>
-
-            </Col>
-
-          </Row>
+            </div>
+          </header>
 
           {/* BUSQUEDA */}
 
@@ -687,9 +609,7 @@ const Clientes = () => {
 
           )}
 
-        </Card.Body>
-
-      </Card>
+      </div>
 
       {/* MODALES */}
 

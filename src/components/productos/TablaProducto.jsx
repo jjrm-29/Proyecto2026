@@ -5,7 +5,8 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 const TablaProductos = ({
     productos,
     abrirModalEdicion,
-    abrirModalEliminacion
+    abrirModalEliminacion,
+    generarQRImagen
 }) => {
     const [loading, setLoading] = useState(true);
 
@@ -25,7 +26,8 @@ const TablaProductos = ({
                     <Spinner animation="border" variant="success" />
                 </div>
             ) : (
-                <Table striped borderless hover responsive size="sm">
+                <div className="tabla-contenedor">
+                <Table hover responsive className="tabla-app mb-0">
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -40,13 +42,13 @@ const TablaProductos = ({
                     <tbody>
                         {productos.map((producto) => (
                             <tr key={producto.id_producto}>
-                                <td>{producto.id_producto}</td>
-                                <td>{producto.nombre_producto}</td>
-                                <td className="d-none d-md-table-cell">
+                                <td className="fw-semibold">#{producto.id_producto}</td>
+                                <td className="fw-semibold">{producto.nombre_producto}</td>
+                                <td className="d-none d-md-table-cell text-secondary">
                                     {producto.descripcion_producto}
                                 </td>
                                 <td>{producto.categoria_producto}</td>
-                                <td>{producto.precio_venta}</td>
+                                <td className="fw-semibold text-primary">C$ {producto.precio_venta}</td>
                                 <td>
                                     {producto.url_imagen && (
                                         <Image
@@ -55,31 +57,43 @@ const TablaProductos = ({
                                             width={40}
                                             height={40}
                                             rounded
+                                            className="border"
                                         />
                                     )}
                                 </td>
                                 <td className="text-center">
                                     <Button
-                                        variant="outline-warning"
                                         size="sm"
-                                        className="m-1"
+                                        className="btn-accion-tabla btn-accion-tabla--editar me-1"
                                         onClick={() => abrirModalEdicion(producto)}
+                                        aria-label="Editar"
                                     >
                                         <i className="bi bi-pencil"></i>
                                     </Button>
 
                                     <Button
-                                        variant="outline-danger"
                                         size="sm"
+                                        className="btn-accion-tabla btn-accion-tabla--eliminar"
                                         onClick={() => abrirModalEliminacion(producto)}
+                                        aria-label="Eliminar"
                                     >
                                         <i className="bi bi-trash"></i>
+                                    </Button>
+
+                                    <Button
+                                        size="sm"
+                                        className="btn-accion-tabla btn-accion-tabla--qr"
+                                        onClick={() => generarQRImagen(producto)}
+                                        aria-label="Generar QR"
+                                    >
+                                        <i className="bi bi-qrcode"></i>
                                     </Button>
                                 </td>
                             </tr>
                         ))}
                     </tbody>
                 </Table>
+                </div>
             )}
         </>
     );

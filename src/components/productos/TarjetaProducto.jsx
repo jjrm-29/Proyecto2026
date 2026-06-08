@@ -8,6 +8,7 @@ const TarjetasProductos = ({
   categorias,
   abrirModalEdicion,
   abrirModalEliminacion,
+  generarQRImagen
 }) => {
   const [cargando, setCargando] = useState(true);
   const [idTarjetaActiva, setIdTarjetaActiva] = useState(null);
@@ -142,6 +143,18 @@ const TarjetasProductos = ({
                         aria-label={`Eliminar ${prod.nombre_producto}`}
                       >
                         <i className="bi bi-trash"></i>
+                      </Button>
+
+                      <Button
+                        variant="outline-primary"
+                        size="sm"
+                        onClick={() => {
+                          generarQRImagen(prod);
+                          setIdTarjetaActiva(null);
+                        }}
+                        aria-label={`Generar QR para ${prod.nombre_producto}`}
+                      >
+                        <i className="bi bi-qrcode"></i>
                       </Button>
                     </div>
                   </div>

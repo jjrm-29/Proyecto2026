@@ -25,9 +25,13 @@ const ModalEdicionCategoria = ({
       backdrop="static"
       keyboard={false}
       centered
+      contentClassName="modal-app"
     >
       <Modal.Header closeButton>
-        <Modal.Title>Editar Categoría</Modal.Title>
+        <Modal.Title>
+          <i className="bi bi-pencil-square"></i>
+          Editar Categoría
+        </Modal.Title>
       </Modal.Header>
 
       <Modal.Body>

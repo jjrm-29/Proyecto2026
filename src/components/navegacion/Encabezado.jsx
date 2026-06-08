@@ -54,34 +54,28 @@ const Encabezado = () => {
         return (
             <Nav className="ms-auto pe-3 flex-column flex-md-row">
                 <Nav.Link onClick={() => manejarNavegacion("/")}>
-                    <strong>Inicio</strong>
+                    Inicio
                 </Nav.Link>
                 <Nav.Link onClick={() => manejarNavegacion("/categorias")}>
-                    <strong>Categorías</strong>
+                    Categorías
                 </Nav.Link>
                 <Nav.Link onClick={() => manejarNavegacion("/productos")}>
-                    <strong>Productos</strong>
+                    Productos
                 </Nav.Link>
-
                 <Nav.Link onClick={() => manejarNavegacion("/empleados")}>
-                    <strong>Empleados</strong>
+                    Empleados
                 </Nav.Link>
-
                 <Nav.Link onClick={() => manejarNavegacion("/clientes")}>
-                    <strong>Clientes</strong>
+                    Clientes
                 </Nav.Link>
-
                 <Nav.Link onClick={() => manejarNavegacion("/ventas")}>
-                    <strong>Ventas</strong>
+                    Ventas
                 </Nav.Link>
-
-
                 <Nav.Link onClick={() => manejarNavegacion("/catalogo")}>
-                    <strong>Catálogo</strong>
+                    Catálogo
                 </Nav.Link>
-
                 <Nav.Link onClick={() => manejarNavegacion("/dashboard")}>
-                    <strong>Dashboard</strong>
+                    Dashboard
                 </Nav.Link>
 
                 <Nav.Link onClick={() => setMostrarChatIA(true)}>
@@ -102,7 +96,7 @@ const Encabezado = () => {
 
                 {/* Información del usuario (solo en móvil) */}
                 {usuario && (
-                    <div className="mt-3 p-3 bg-light text-dark rounded d-md-none">
+                    <div className="mt-3 p-3 border rounded d-md-none" style={{ background: "rgba(255,255,255,0.08)" }}>
                         <p className="mb-2">
                             <i className="bi bi-envelope-fill me-2"></i>
                             {usuario.toLowerCase()}
@@ -117,7 +111,7 @@ const Encabezado = () => {
         <Navbar
             expand="md"
             fixed="top"
-            className="color-navbar shadow-lg"
+            className="color-navbar"
             variant="dark"
         >
             <Container>
@@ -132,7 +126,7 @@ const Encabezado = () => {
                         height="45"
                         alt="Logo Pulpería"
                     />
-                    <strong className="ms-2">Ferreteria</strong>
+                    <span className="color-texto-marca ms-2">Ferretería</span>
                 </Navbar.Brand>
 
                 {/* Toggle solo si NO estamos en login */}

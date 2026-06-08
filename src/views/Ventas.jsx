@@ -557,71 +557,27 @@ const Ventas = () => {
 
   return (
 
-    <Container
-      className="mt-3 p-4 rounded-4 shadow-sm"
-      style={{
-        background:
-          "linear-gradient(135deg, #f8fbff 0%, #eef4ff 40%, #e0ecff 100%)",
-
-        border:
-          "1px solid rgba(37, 99, 235, 0.08)",
-
-        minHeight: "85vh"
-      }}
-    >
-
-      <Row className="align-items-center mb-3">
-
-        <Col xs={8} lg={8}>
-
-          <h3 className="mb-0 fw-bold text-dark">
-
-            <i className="bi bi-receipt-cutoff me-2 text-primary"></i>
-
-            Ventas
-
-          </h3>
-
-        </Col>
-
-        <Col
-          xs={4}
-          lg={4}
-          className="text-end"
-        >
-
-          <Button
-            onClick={abrirNuevaVenta}
-            size="md"
-            className="rounded-3 px-3 shadow-sm"
-            style={{
-              background:
-                "linear-gradient(135deg, #2563eb, #1d4ed8)",
-
-              border: "none"
-            }}
-          >
-
+    <Container className="vista-contenedor mt-3">
+      <div className="vista-panel">
+      <header className="vista-encabezado">
+        <div className="vista-encabezado__titulo-grupo">
+          <div className="vista-encabezado__icono" aria-hidden="true">
+            <i className="bi bi-receipt-cutoff"></i>
+          </div>
+          <div>
+            <h2>Ventas</h2>
+            <p className="vista-encabezado__subtitulo">
+              Registro y seguimiento de transacciones
+            </p>
+          </div>
+        </div>
+        <div className="vista-encabezado__acciones">
+          <Button variant="primary" onClick={abrirNuevaVenta}>
             <i className="bi bi-plus-lg"></i>
-
-            <span className="d-none d-sm-inline ms-2">
-
-              Nueva Venta
-
-            </span>
-
+            <span className="d-none d-sm-inline ms-2">Nueva venta</span>
           </Button>
-
-        </Col>
-
-      </Row>
-
-      <hr
-        style={{
-          borderColor:
-            "rgba(37, 99, 235, 0.15)"
-        }}
-      />
+        </div>
+      </header>
 
       <Row className="mb-4">
 
@@ -714,6 +670,8 @@ const Ventas = () => {
         />
 
       )}
+
+      </div>
 
       <FormularioVenta
         mostrar={mostrarFormulario}

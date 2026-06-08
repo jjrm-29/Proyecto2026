@@ -110,11 +110,14 @@ const ChatIA = ({ mostrar, onCerrar }) => {
   }, [mensajes]);
 
   return (
-    <Modal show={mostrar} onHide={onCerrar} size="xl" centered backdrop="static">
+    <Modal show={mostrar} onHide={onCerrar} size="xl" centered backdrop="static" contentClassName="modal-app modal-app--chat">
       <Modal.Header closeButton>
-        <Modal.Title>Consultas Inteligentes</Modal.Title>
+        <Modal.Title>
+          <i className="bi bi-robot"></i>
+          Consultas Inteligentes
+        </Modal.Title>
       </Modal.Header>
-      <Modal.Body style={{ height: "68vh", overflowY: "auto" }}>
+      <Modal.Body>
         <div className="d-flex flex-column h-100">
           <div className="flex-grow-1 overflow-auto mb-3 pe-2">
             {mensajes.length === 0 && (
@@ -132,8 +135,7 @@ const ChatIA = ({ mostrar, onCerrar }) => {
 
             {mensajes.map((msg, index) => (
               <div key={index} className={`mb-4 ${msg.tipo === 'usuario' ? 'text-end' : ''}`}>
-                <div className={`d-inline-block p-3 rounded-3 ${msg.tipo === 'usuario' ? 'bg-primary text-white' : 'bg-light border'}`}
-                  style={{ maxWidth: '90%' }}>
+                <div className={`chat-burbuja ${msg.tipo === 'usuario' ? 'chat-burbuja--usuario' : 'chat-burbuja--ia'}`}>
                   <strong>{msg.tipo === 'usuario' ? 'Tú:' : 'Asistente IA:'}</strong><br />
                   
                   {msg.tipo === 'usuario' ? (
@@ -143,7 +145,8 @@ const ChatIA = ({ mostrar, onCerrar }) => {
                   )}
 
                   {msg.datos && msg.datos.length > 0 && (
-                    <Table striped bordered hover size="sm" responsive className="mt-3">
+                    <div className="tabla-contenedor mt-3">
+                    <Table hover responsive className="tabla-app mb-0">
                       <thead>
                         <tr>
                           {msg.columnas.map((col, i) => (
@@ -161,6 +164,7 @@ const ChatIA = ({ mostrar, onCerrar }) => {
                         ))}
                       </tbody>
                     </Table>
+                    </div>
                   )}
                 </div>
               </div>

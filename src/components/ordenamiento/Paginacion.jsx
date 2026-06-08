@@ -61,7 +61,7 @@ for (let numeroPagina = paginaInicio; numeroPagina <= paginaFin; numeroPagina++)
 
     return (
 
-        <Row className="mt-1 align-items-center">
+        <Row className="mt-1 align-items-center paginacion-contenedor">
 
     {/* Selector de cantidad de registros */}
     <Col xs="auto">
@@ -80,7 +80,7 @@ for (let numeroPagina = paginaInicio; numeroPagina <= paginaFin; numeroPagina++)
 
     {/* Controles de paginación */}
     <Col className="d-flex justify-content-center">
-        <Pagination className="shadow-sm mt-2">
+        <Pagination className="mt-2">
 
             <Pagination.First
                 onClick={() => cambiarPagina(1)}

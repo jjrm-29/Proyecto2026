@@ -97,17 +97,22 @@ const obtenerNombreCategoria = (idCategoria) => {
 };
 
   return (
+    <Container className="vista-contenedor mt-3">
+      <header className="vista-encabezado mb-0 border-0 pb-3">
+        <div className="vista-encabezado__titulo-grupo">
+          <div className="vista-encabezado__icono" aria-hidden="true">
+            <i className="bi bi-grid"></i>
+          </div>
+          <div>
+            <h2>Catálogo</h2>
+            <p className="vista-encabezado__subtitulo">
+              Productos disponibles para consulta
+            </p>
+          </div>
+        </div>
+      </header>
 
-    <div className="mt-3 px-1">
-  <Row className="text-center mb-1">
-    <Col>
-      <p className="lead text-muted">
-        Nuestros productos de belleza
-      </p>
-    </Col>
-  </Row>
-
-  <Row className="mb-1 align-items-end">
+  <Row className="mb-3 align-items-end">
     <Col md={4} lg={3} className="mb-2">
       <Form.Group controlId="filtroCategoria">
         <Form.Select
@@ -163,8 +168,7 @@ const obtenerNombreCategoria = (idCategoria) => {
       ))}
     </Row>
   )}
-</div>
-
+    </Container>
   );
 };
 

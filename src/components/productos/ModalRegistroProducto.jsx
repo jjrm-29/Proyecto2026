@@ -27,9 +27,13 @@ const ModalRegistroProducto = ({
             backdrop="static"
             centered
             size="lg"
+            contentClassName="modal-app"
         >
             <Modal.Header closeButton>
-                <Modal.Title>Nuevo Producto</Modal.Title>
+                <Modal.Title>
+                    <i className="bi bi-plus-circle-fill"></i>
+                    Nuevo Producto
+                </Modal.Title>
             </Modal.Header>
 
             <Modal.Body>

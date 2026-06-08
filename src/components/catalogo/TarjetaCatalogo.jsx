@@ -15,8 +15,7 @@ const TarjetaCatalogo = ({ producto, categoriaNombre }) => {
     return (
         <>
             <Card
-                className="h-100 border-0 shadow-lg overflow-hidden position-relative cursor-pointer"
-                style={{ transition: "transform 0.3s, box-shadow 0.3s" }}
+                className="h-100 overflow-hidden position-relative tarjeta-catalogo"
                 role="button"
                 tabIndex={0}
                 onClick={() => setMostrarModal(true)}
@@ -27,15 +26,8 @@ const TarjetaCatalogo = ({ producto, categoriaNombre }) => {
                         <img
                             src={producto.url_imagen}
                             alt={producto.nombre_producto}
-                            className="card-img-top object-fit-cover"
+                            className="card-img-top object-fit-cover w-100 h-100"
                             loading="lazy"
-                            style={{ transition: "transform 0.4s" }}
-                            onMouseEnter={(e) =>
-                                (e.currentTarget.style.transform = "scale(1.1)")
-                            }
-                            onMouseLeave={(e) =>
-                                (e.currentTarget.style.transform = "scale(1)")
-                            }
                         />
                     ) : (
                         <div className="d-flex align-items-center justify-content-center h-100 bg-secondary-subtle">
@@ -68,7 +60,7 @@ const TarjetaCatalogo = ({ producto, categoriaNombre }) => {
                     <hr />
 
                     <div className="mt-auto pt-2">
-                        <h4 className="text-success fw-bold mb-0">
+                        <h4 className="text-primary fw-semibold mb-0">
                             C${parseFloat(producto.precio_venta || 0).toFixed(1)}
                         </h4>
                     </div>
@@ -81,9 +73,11 @@ const TarjetaCatalogo = ({ producto, categoriaNombre }) => {
                 onHide={() => setMostrarModal(false)}
                 size="lg"
                 centered
+                contentClassName="modal-app"
             >
-                <Modal.Header closeButton className="border-0 pb-0">
-                    <Modal.Title className="fw-bold fs-4">
+                <Modal.Header closeButton>
+                    <Modal.Title>
+                        <i className="bi bi-box-seam"></i>
                         {producto.nombre_producto}
                     </Modal.Title>
                 </Modal.Header>
@@ -109,7 +103,7 @@ const TarjetaCatalogo = ({ producto, categoriaNombre }) => {
                                 {categoriaNombre || "Sin categoría"}
                             </Badge>
 
-                            <h3 className="text-success fw-bold">
+                            <h3 className="text-primary fw-semibold">
                                 C${parseFloat(producto.precio_venta || 0).toFixed(1)}
                             </h3>
 

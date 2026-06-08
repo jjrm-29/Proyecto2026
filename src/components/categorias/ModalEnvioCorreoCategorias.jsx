@@ -11,9 +11,12 @@ const ModalEnvioCorreoCategorias = ({
     totalCategorias
 }) => {
     return (
-        <Modal show={mostrarModalCorreo} onHide={() => setMostrarModalCorreo(false)} centered>
+        <Modal show={mostrarModalCorreo} onHide={() => setMostrarModalCorreo(false)} centered contentClassName="modal-app">
             <Modal.Header closeButton>
-                <Modal.Title>Enviar Listado de Categorías por Correo</Modal.Title>
+                <Modal.Title>
+                    <i className="bi bi-envelope-fill"></i>
+                    Enviar Listado por Correo
+                </Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <Form.Group className="mb-3">

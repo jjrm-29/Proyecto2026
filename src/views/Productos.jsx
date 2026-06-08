@@ -19,6 +19,7 @@ import CuadroBusquedas from "../components/busquedas/CuadroBusquedas";
 import TablaProductos from "../components/productos/TablaProducto";
 import Paginacion from "../components/ordenamiento/Paginacion";
 import TarjetaProducto from "../components/productos/TarjetaProducto";
+import ModalQRProducto from "../components/productos/ModalQRProducto";
 
 const Productos = () => {
 
@@ -32,6 +33,12 @@ const Productos = () => {
 
   const [mostrarModal, setMostrarModal] =
     useState(false);
+
+  const [mostrarModalQR, setMostrarModalQR] =
+    useState(false);
+  const [productoQR, setProductoQR] = useState(null);
+
+  
 
   const [
     mostrarModalEliminacion,
@@ -61,6 +68,19 @@ const Productos = () => {
       precio_venta: "",
       archivo: null,
     });
+
+    const generarQRImagen = (producto) => {
+      if (!producto.url_imagen) {
+        setToast({
+          mostrar: true,
+          mensaje: "Este producto no tiene imagen para generar el QR",
+          tipo: "advertencia",
+        });
+        return;
+      }
+      setProductoQR(producto);
+      setMostrarModalQR(true);
+    };
 
   const productosPaginadas =
     productosFiltrados.slice(
@@ -557,78 +577,27 @@ const Productos = () => {
 
   return (
 
-    <Container
-      className="mt-3 p-4 rounded-4 shadow-sm"
-      style={{
-        background:
-          "linear-gradient(135deg, #f8fbff 0%, #eef4ff 45%, #dbeafe 100%)",
-
-        border:
-          "1px solid rgba(37, 99, 235, 0.08)",
-
-        minHeight: "85vh"
-      }}
-    >
-
-      <Row className="align-items-center mb-3">
-
-        <Col className="d-flex align-items-center">
-
-          <h3 className="mb-0 fw-bold text-dark">
-
-            <i className="bi bi-bag-heart-fill me-2 text-primary"></i>
-
-            Productos
-
-          </h3>
-
-        </Col>
-
-        <Col
-          xs={3}
-          sm={5}
-          md={5}
-          lg={5}
-          className="text-end"
-        >
-
-          <Button
-            onClick={() =>
-              setMostrarModal(true)
-            }
-
-            size="md"
-
-            className="rounded-3 px-3 shadow-sm"
-
-            style={{
-              background:
-                "linear-gradient(135deg, #2563eb, #1d4ed8)",
-
-              border: "none"
-            }}
-          >
-
+    <Container className="vista-contenedor mt-3">
+      <div className="vista-panel">
+      <header className="vista-encabezado">
+        <div className="vista-encabezado__titulo-grupo">
+          <div className="vista-encabezado__icono" aria-hidden="true">
+            <i className="bi bi-box-seam"></i>
+          </div>
+          <div>
+            <h2>Productos</h2>
+            <p className="vista-encabezado__subtitulo">
+              Inventario y precios del catálogo
+            </p>
+          </div>
+        </div>
+        <div className="vista-encabezado__acciones">
+          <Button variant="primary" onClick={() => setMostrarModal(true)}>
             <i className="bi bi-plus-lg"></i>
-
-            <span className="d-none d-sm-inline ms-2">
-
-              Nuevo Producto
-
-            </span>
-
+            <span className="d-none d-sm-inline ms-2">Nuevo producto</span>
           </Button>
-
-        </Col>
-
-      </Row>
-
-      <hr
-        style={{
-          borderColor:
-            "rgba(37, 99, 235, 0.15)"
-        }}
-      />
+        </div>
+      </header>
 
       <Row className="mb-4">
 
@@ -692,6 +661,7 @@ const Productos = () => {
               productos={productosPaginadas}
               abrirModalEdicion={abrirModalEdicion}
               abrirModalEliminacion={abrirModalEliminacion}
+              generarQRImagen={generarQRImagen}
             />
 
           </Col>
@@ -706,6 +676,7 @@ const Productos = () => {
               categorias={categorias}
               abrirModalEdicion={abrirModalEdicion}
               abrirModalEliminacion={abrirModalEliminacion}
+              generarQRImagen={generarQRImagen}
             />
 
           </Col>
@@ -733,6 +704,8 @@ const Productos = () => {
 
       )}
 
+      </div>
+
       <ModalRegistroProducto
         mostrarModal={mostrarModal}
         setMostrarModal={setMostrarModal}
@@ -759,6 +732,12 @@ const Productos = () => {
         eliminarProducto={eliminarProducto}
         producto={productoAEliminar}
       />
+
+      <ModalQRProducto
+  mostrar={mostrarModalQR}
+  onHide={() => setMostrarModalQR(false)}
+  producto={productoQR}
+/>
 
       <NotificacionOperacion
         mostrar={toast.mostrar}

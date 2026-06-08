@@ -3,7 +3,6 @@ import {
   Table,
   Spinner,
   Button,
-  Card
 } from "react-bootstrap";
 
 import "bootstrap-icons/font/bootstrap-icons.css";
@@ -21,145 +20,63 @@ const TablaClientes = ({
   }, [clientes]);
 
   return (
-    <Card
-      className="border-0 shadow-sm rounded-4"
-      style={{
-        backgroundColor: "#ffffff",
-      }}
-    >
-
-      <Card.Body className="p-0">
-
-        {loading ? (
-
-          <div className="text-center py-5">
-
-            <Spinner
-              animation="border"
-              variant="dark"
-            />
-
-            <p className="mt-3 text-secondary mb-0">
-              Cargando clientes...
-            </p>
-
-          </div>
-
-        ) : (
-
-          <Table
-            responsive
-            hover
-            className="align-middle mb-0"
-          >
-
-            <thead
-              style={{
-                backgroundColor: "#111827",
-                color: "#fff",
-              }}
-            >
+    <>
+      {loading ? (
+        <div className="text-center py-5">
+          <Spinner animation="border" variant="primary" />
+          <p className="mt-3 text-secondary mb-0">
+            Cargando clientes...
+          </p>
+        </div>
+      ) : (
+        <div className="tabla-contenedor">
+          <Table responsive hover className="tabla-app mb-0">
+            <thead>
               <tr>
-                <th className="py-3 px-4 border-0">
-                  ID
-                </th>
-
-                <th className="py-3 border-0">
-                  Nombre
-                </th>
-
-                <th className="py-3 border-0">
-                  Apellido
-                </th>
-
-                <th className="py-3 border-0">
-                  Celular
-                </th>
-
-                <th className="py-3 border-0 text-center">
-                  Acciones
-                </th>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Celular</th>
+                <th className="text-center">Acciones</th>
               </tr>
             </thead>
 
             <tbody>
-
-              {clientes.map((cliente, index) => (
-
-                <tr
-                  key={cliente.id_cliente}
-                  style={{
-                    backgroundColor:
-                      index % 2 === 0
-                        ? "#ffffff"
-                        : "#f9fafb",
-                    transition: "0.2s ease",
-                  }}
-                >
-
-                  <td className="px-4 fw-semibold text-dark">
-                    #{cliente.id_cliente}
-                  </td>
-
-                  <td className="fw-semibold text-dark">
-                    {cliente.nombre_cliente}
-                  </td>
-
+              {clientes.map((cliente) => (
+                <tr key={cliente.id_cliente}>
+                  <td className="fw-semibold">#{cliente.id_cliente}</td>
+                  <td className="fw-semibold">{cliente.nombre_cliente}</td>
                   <td className="text-secondary">
                     {cliente.apellido_cliente || "—"}
                   </td>
-
-                  <td className="text-dark">
-                    {cliente.celular}
-                  </td>
+                  <td>{cliente.celular}</td>
 
                   <td className="text-center">
-
                     <Button
-                      variant="light"
                       size="sm"
-                      className="me-2 border rounded-3"
-                      style={{
-                        width: "38px",
-                        height: "38px",
-                      }}
-                      onClick={() =>
-                        abrirModalEdicion(cliente)
-                      }
+                      className="btn-accion-tabla btn-accion-tabla--editar me-1"
+                      onClick={() => abrirModalEdicion(cliente)}
+                      aria-label="Editar"
                     >
-                      <i className="bi bi-pencil-square text-warning"></i>
+                      <i className="bi bi-pencil-square"></i>
                     </Button>
 
                     <Button
-                      variant="light"
                       size="sm"
-                      className="border rounded-3"
-                      style={{
-                        width: "38px",
-                        height: "38px",
-                      }}
-                      onClick={() =>
-                        abrirModalEliminacion(cliente)
-                      }
+                      className="btn-accion-tabla btn-accion-tabla--eliminar"
+                      onClick={() => abrirModalEliminacion(cliente)}
+                      aria-label="Eliminar"
                     >
-                      <i className="bi bi-trash3 text-danger"></i>
+                      <i className="bi bi-trash3"></i>
                     </Button>
-
                   </td>
-
                 </tr>
-
               ))}
-
             </tbody>
-
           </Table>
-
-        )}
-
-      </Card.Body>
-
-    </Card>
+        </div>
+      )}
+    </>
   );
 };
 

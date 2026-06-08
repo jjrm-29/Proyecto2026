@@ -25,9 +25,13 @@ const ModalRegistroCategoria = ({
       backdrop="static"
       keyboard={false}
       centered
+      contentClassName="modal-app"
     >
       <Modal.Header closeButton>
-        <Modal.Title>Agregar Categoría</Modal.Title>
+        <Modal.Title>
+          <i className="bi bi-plus-circle-fill"></i>
+          Agregar Categoría
+        </Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form>

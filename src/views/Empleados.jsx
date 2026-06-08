@@ -174,17 +174,27 @@ const Empleados = () => {
     };
 
     return (
-        <Container className="mt-3">
-            <Row className="align-items-center mb-3">
-                <Col>
-                    <h3><i className="bi-person-badge-fill me-2"></i>Empleados</h3>
-                </Col>
-                <Col className="text-end">
-                    <Button onClick={() => setMostrarModal(true)}>
-                        <i className="bi-plus-lg me-1"></i>Nuevo Empleado
+        <Container className="vista-contenedor mt-3">
+            <div className="vista-panel">
+            <header className="vista-encabezado">
+                <div className="vista-encabezado__titulo-grupo">
+                    <div className="vista-encabezado__icono" aria-hidden="true">
+                        <i className="bi bi-person-badge"></i>
+                    </div>
+                    <div>
+                        <h2>Empleados</h2>
+                        <p className="vista-encabezado__subtitulo">
+                            Personal y accesos del sistema
+                        </p>
+                    </div>
+                </div>
+                <div className="vista-encabezado__acciones">
+                    <Button variant="primary" onClick={() => setMostrarModal(true)}>
+                        <i className="bi bi-plus-lg me-1"></i>
+                        Nuevo empleado
                     </Button>
-                </Col>
-            </Row>
+                </div>
+            </header>
 
             <Row className="mb-4">
                 <Col md={6}>
@@ -234,6 +244,8 @@ const Empleados = () => {
                     </Col>
                 </Row>
             )}
+
+            </div>
 
             {/* Modales */}
             <ModalRegistroEmpleado

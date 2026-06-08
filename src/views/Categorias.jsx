@@ -42,6 +42,34 @@ const Categorias = () => {
 
   const [categoriaAEliminar, setCategoriaAEliminar] = useState(null);
 
+  const copiarCategoria = async (categoria) => {
+  if (!categoria) return;
+
+  const texto = `
+ID: ${categoria.id_categoria}
+Categoría: ${categoria.nombre_categoria}
+Descripción: ${categoria.descripcion_categoria}
+`;
+
+  try {
+    await navigator.clipboard.writeText(texto);
+
+    setToast({
+      mostrar: true,
+      mensaje: `Categoría "${categoria.nombre_categoria}" copiada al portapapeles.`,
+      tipo: "exito",
+    });
+  } catch (err) {
+    console.error("Error al copiar categoría:", err);
+
+    setToast({
+      mostrar: true,
+      mensaje: "No se puede copiar al portapapeles",
+      tipo: "error",
+    });
+  }
+};
+
   const [categoriaEditar, setCategoriaEditar] = useState({
     id_categoria: "",
     nombre_categoria: "",
@@ -391,40 +419,31 @@ emailjs.send(
   }, []);
 
   return (
-    <Container className="mt-3">
-  <Row className="align-items-center mb-3">
-    <Col xs={8} sm={8} md={8} lg={8} className="d-flex align-items-center">
-      <h3 className="mb-0">
-        <i className="bi bi-bookmark-plus-fill me-2"></i>
-        Categorías
-      </h3>
-    </Col>
-
-    <Col xs={2} sm={2} md={2} lg={2} className="text-end">
-      <Button
-        variant="primary"
-        onClick={abrirModalCorreo}
-        size="md"
-      >
-        <i className="bi bi-envelope"></i>
-        <span className="d-none d-lg-inline ms-2">
-          Enviar por Correo
-        </span>
-      </Button>
-    </Col>
-
-    <Col xs={2} sm={2} md={2} lg={2} className="text-end">
-      <Button
-        onClick={() => setMostrarModal(true)}
-        size="md"
-      >
-        <i className="bi bi-plus-lg"></i>
-        <span className="d-none d-lg-inline ms-2">
-          Nueva Categoría
-        </span>
-      </Button>
-    </Col>
-  </Row>
+    <Container className="vista-contenedor mt-3">
+      <div className="vista-panel">
+      <header className="vista-encabezado">
+        <div className="vista-encabezado__titulo-grupo">
+          <div className="vista-encabezado__icono" aria-hidden="true">
+            <i className="bi bi-bookmarks"></i>
+          </div>
+          <div>
+            <h2>Categorías</h2>
+            <p className="vista-encabezado__subtitulo">
+              Clasificación de productos del inventario
+            </p>
+          </div>
+        </div>
+        <div className="vista-encabezado__acciones">
+          <Button variant="outline-primary" onClick={abrirModalCorreo}>
+            <i className="bi bi-envelope"></i>
+            <span className="d-none d-lg-inline ms-2">Enviar por correo</span>
+          </Button>
+          <Button variant="primary" onClick={() => setMostrarModal(true)}>
+            <i className="bi bi-plus-lg"></i>
+            <span className="d-none d-lg-inline ms-2">Nueva categoría</span>
+          </Button>
+        </div>
+      </header>
 
   <Row className="mb-4">
     <Col md={6} lg={5}>
@@ -455,6 +474,8 @@ emailjs.send(
         categorias={categoriaPaginadas}
         abrirModalEdicion={abrirModalEdicion}
         abrirModalEliminacion={abrirModalEliminacion}
+        generarPDFCategoria={generarPDFCategoria}
+        copiarCategoria={copiarCategoria}
       />
     </Col>
   </Row>
@@ -467,6 +488,7 @@ emailjs.send(
           abrirModalEdicion={abrirModalEdicion}
           generarPDFCategoria={generarPDFCategoria}
           abrirModalEliminacion={abrirModalEliminacion}
+          copiarCategoria={copiarCategoria}
         />
       </Col>
     </Row>
@@ -483,6 +505,8 @@ emailjs.send(
       establecerRegistrosPorPagina={establecerRegistrosPorPagina}
     />
   )}
+
+      </div>
 
   <ModalRegistroCategoria
     mostrarModal={mostrarModal}
