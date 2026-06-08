@@ -240,6 +240,7 @@ body {
   gap: 1.5rem;
 }
 
+
 .inicio-hero {
   background: var(--gradient-hero);
   border: 1px solid rgba(37, 99, 235, 0.15);
@@ -684,6 +685,18 @@ body {
 .btn-accion-tabla--eliminar:hover {
   background: var(--color-peligro);
   border-color: var(--color-peligro);
+  color: #fff;
+}
+
+.btn-accion-tabla--qr {
+  background: rgba(59, 130, 246, 0.12);
+  border: 2px solid #3b82f6;
+  color: #2563eb;
+}
+
+.btn-accion-tabla--qr:hover {
+  background: #3b82f6;
+  border-color: #3b82f6;
   color: #fff;
 }
 

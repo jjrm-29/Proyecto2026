@@ -43,32 +43,32 @@ const Categorias = () => {
   const [categoriaAEliminar, setCategoriaAEliminar] = useState(null);
 
   const copiarCategoria = async (categoria) => {
-  if (!categoria) return;
+    if (!categoria) return;
 
-  const texto = `
+    const texto = `
 ID: ${categoria.id_categoria}
 Categoría: ${categoria.nombre_categoria}
 Descripción: ${categoria.descripcion_categoria}
 `;
 
-  try {
-    await navigator.clipboard.writeText(texto);
+    try {
+      await navigator.clipboard.writeText(texto);
 
-    setToast({
-      mostrar: true,
-      mensaje: `Categoría "${categoria.nombre_categoria}" copiada al portapapeles.`,
-      tipo: "exito",
-    });
-  } catch (err) {
-    console.error("Error al copiar categoría:", err);
+      setToast({
+        mostrar: true,
+        mensaje: `Categoría "${categoria.nombre_categoria}" copiada al portapapeles.`,
+        tipo: "exito",
+      });
+    } catch (err) {
+      console.error("Error al copiar categoría:", err);
 
-    setToast({
-      mostrar: true,
-      mensaje: "No se puede copiar al portapapeles",
-      tipo: "error",
-    });
-  }
-};
+      setToast({
+        mostrar: true,
+        mensaje: "No se puede copiar al portapapeles",
+        tipo: "error",
+      });
+    }
+  };
 
   const [categoriaEditar, setCategoriaEditar] = useState({
     id_categoria: "",
@@ -343,7 +343,7 @@ Descripción: ${categoria.descripcion_categoria}
     }
   };
 
-   const abrirModalCorreo = () => {
+  const abrirModalCorreo = () => {
     setEmailDestino("");
     setMostrarModalCorreo(true);
   };
@@ -386,7 +386,7 @@ Descripción: ${categoria.descripcion_categoria}
       message: mensaje,
       fecha_envio: new Date().toLocaleDateString("es-NI")
     };
-emailjs.send(
+    emailjs.send(
       import.meta.env.VITE_EMAILJS_SERVICE_ID,
       import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
       templateParams
@@ -413,7 +413,7 @@ emailjs.send(
       });
   };
 
-    // Inicializar EmailJS
+  // Inicializar EmailJS
   useEffect(() => {
     emailjs.init(import.meta.env.VITE_EMAILJS_PUBLIC_KEY);
   }, []);
@@ -421,133 +421,133 @@ emailjs.send(
   return (
     <Container className="vista-contenedor mt-3">
       <div className="vista-panel">
-      <header className="vista-encabezado">
-        <div className="vista-encabezado__titulo-grupo">
-          <div className="vista-encabezado__icono" aria-hidden="true">
-            <i className="bi bi-bookmarks"></i>
+        <header className="vista-encabezado">
+          <div className="vista-encabezado__titulo-grupo">
+            <div className="vista-encabezado__icono" aria-hidden="true">
+              <i className="bi bi-bookmarks"></i>
+            </div>
+            <div>
+              <h2>Categorías</h2>
+              <p className="vista-encabezado__subtitulo">
+                Clasificación de productos del inventario
+              </p>
+            </div>
           </div>
-          <div>
-            <h2>Categorías</h2>
-            <p className="vista-encabezado__subtitulo">
-              Clasificación de productos del inventario
-            </p>
+          <div className="vista-encabezado__acciones">
+            <Button variant="outline-primary" onClick={abrirModalCorreo}>
+              <i className="bi bi-envelope"></i>
+              <span className="d-none d-lg-inline ms-2">Enviar por correo</span>
+            </Button>
+            <Button variant="primary" onClick={() => setMostrarModal(true)}>
+              <i className="bi bi-plus-lg"></i>
+              <span className="d-none d-lg-inline ms-2">Nueva categoría</span>
+            </Button>
           </div>
-        </div>
-        <div className="vista-encabezado__acciones">
-          <Button variant="outline-primary" onClick={abrirModalCorreo}>
-            <i className="bi bi-envelope"></i>
-            <span className="d-none d-lg-inline ms-2">Enviar por correo</span>
-          </Button>
-          <Button variant="primary" onClick={() => setMostrarModal(true)}>
-            <i className="bi bi-plus-lg"></i>
-            <span className="d-none d-lg-inline ms-2">Nueva categoría</span>
-          </Button>
-        </div>
-      </header>
+        </header>
 
-  <Row className="mb-4">
-    <Col md={6} lg={5}>
-      <CuadroBusquedas
-        textBusqueda={textoBusqueda}
-        manejarCambioBusqueda={manejarBusqueda}
-        placeholder="Buscar por nombre o descripcion..."
-      />
-    </Col>
-  </Row>
+        <Row className="mb-4">
+          <Col md={6} lg={5}>
+            <CuadroBusquedas
+              textBusqueda={textoBusqueda}
+              manejarCambioBusqueda={manejarBusqueda}
+              placeholder="Buscar por nombre o descripcion..."
+            />
+          </Col>
+        </Row>
 
-  {!cargando &&
-    textoBusqueda.trim() &&
-    categoriasFiltradas.length === 0 && (
-      <Row className="mb-4">
-        <Col>
-          <Alert variant="info" className="text-center">
-            <i className="bi bi-info-circle me-2"></i>
-            No se encontraron categorias que coincidan con "{textoBusqueda}".
-          </Alert>
-        </Col>
-      </Row>
-    )}
+        {!cargando &&
+          textoBusqueda.trim() &&
+          categoriasFiltradas.length === 0 && (
+            <Row className="mb-4">
+              <Col>
+                <Alert variant="info" className="text-center">
+                  <i className="bi bi-info-circle me-2"></i>
+                  No se encontraron categorias que coincidan con "{textoBusqueda}".
+                </Alert>
+              </Col>
+            </Row>
+          )}
 
-  <Row>
-    <Col xs={12} sm={12} md={12} className="d-lg-none">
-      <TarjetaCategoria
-        categorias={categoriaPaginadas}
-        abrirModalEdicion={abrirModalEdicion}
-        abrirModalEliminacion={abrirModalEliminacion}
-        generarPDFCategoria={generarPDFCategoria}
-        copiarCategoria={copiarCategoria}
-      />
-    </Col>
-  </Row>
+        <Row>
+          <Col xs={12} sm={12} md={12} className="d-lg-none">
+            <TarjetaCategoria
+              categorias={categoriaPaginadas}
+              abrirModalEdicion={abrirModalEdicion}
+              abrirModalEliminacion={abrirModalEliminacion}
+              generarPDFCategoria={generarPDFCategoria}
+              copiarCategoria={copiarCategoria}
+            />
+          </Col>
+        </Row>
 
-  {!cargando && categoriasFiltradas.length > 0 && (
-    <Row>
-      <Col lg={12} className="d-none d-lg-block">
-        <TablaCategorias
-          categorias={categoriaPaginadas}
-          abrirModalEdicion={abrirModalEdicion}
-          generarPDFCategoria={generarPDFCategoria}
-          abrirModalEliminacion={abrirModalEliminacion}
-          copiarCategoria={copiarCategoria}
-        />
-      </Col>
-    </Row>
-  )}
+        {!cargando && categoriasFiltradas.length > 0 && (
+          <Row>
+            <Col lg={12} className="d-none d-lg-block">
+              <TablaCategorias
+                categorias={categoriaPaginadas}
+                abrirModalEdicion={abrirModalEdicion}
+                generarPDFCategoria={generarPDFCategoria}
+                abrirModalEliminacion={abrirModalEliminacion}
+                copiarCategoria={copiarCategoria}
+              />
+            </Col>
+          </Row>
+        )}
 
-  <hr />
+        <hr />
 
-  {categoriasFiltradas.length > 0 && (
-    <Paginacion
-      registrosPorPagina={registrosPorPagina}
-      totalRegistros={categoriasFiltradas.length}
-      paginaActual={paginaActual}
-      establecerPaginaActual={establecerPaginaActual}
-      establecerRegistrosPorPagina={establecerRegistrosPorPagina}
-    />
-  )}
+        {categoriasFiltradas.length > 0 && (
+          <Paginacion
+            registrosPorPagina={registrosPorPagina}
+            totalRegistros={categoriasFiltradas.length}
+            paginaActual={paginaActual}
+            establecerPaginaActual={establecerPaginaActual}
+            establecerRegistrosPorPagina={establecerRegistrosPorPagina}
+          />
+        )}
 
       </div>
 
-  <ModalRegistroCategoria
-    mostrarModal={mostrarModal}
-    setMostrarModal={setMostrarModal}
-    nuevaCategoria={nuevaCategoria}
-    manejoCambioInput={manejoCambioInput}
-    agregarCategoria={agregarCategoria}
-  />
+      <ModalRegistroCategoria
+        mostrarModal={mostrarModal}
+        setMostrarModal={setMostrarModal}
+        nuevaCategoria={nuevaCategoria}
+        manejoCambioInput={manejoCambioInput}
+        agregarCategoria={agregarCategoria}
+      />
 
-  <NotificacionOperacion
-    {...toast}
-    onCerrar={() =>
-      setToast({ ...toast, mostrar: false })
-    }
-  />
+      <NotificacionOperacion
+        {...toast}
+        onCerrar={() =>
+          setToast({ ...toast, mostrar: false })
+        }
+      />
 
-  <ModalEnvioCorreoCategorias
-    mostrarModalCorreo={mostrarModalCorreo}
-    setMostrarModalCorreo={setMostrarModalCorreo}
-    emailDestino={emailDestino}
-    setEmailDestino={setEmailDestino}
-    enviandoCorreo={enviandoCorreo}
-    enviarCorreoCategorias={enviarCorreoCategorias}
-    totalCategorias={categorias.length}
-  />
+      <ModalEnvioCorreoCategorias
+        mostrarModalCorreo={mostrarModalCorreo}
+        setMostrarModalCorreo={setMostrarModalCorreo}
+        emailDestino={emailDestino}
+        setEmailDestino={setEmailDestino}
+        enviandoCorreo={enviandoCorreo}
+        enviarCorreoCategorias={enviarCorreoCategorias}
+        totalCategorias={categorias.length}
+      />
 
-  <ModalEdicionCategoria
-    mostrarModalEdicion={mostrarModalEdicion}
-    setMostrarModalEdicion={setMostrarModalEdicion}
-    categoriaEditar={categoriaEditar}
-    manejoCambioInputEdicion={manejoCambioInputEdicion}
-    actualizarCategoria={actualizarCategoria}
-  />
+      <ModalEdicionCategoria
+        mostrarModalEdicion={mostrarModalEdicion}
+        setMostrarModalEdicion={setMostrarModalEdicion}
+        categoriaEditar={categoriaEditar}
+        manejoCambioInputEdicion={manejoCambioInputEdicion}
+        actualizarCategoria={actualizarCategoria}
+      />
 
-  <ModalEliminacionCategoria
-    mostrarModalEliminacion={mostrarModalEliminacion}
-    setMostrarModalEliminacion={setMostrarModalEliminacion}
-    eliminarCategoria={eliminarCategoria}
-    categoria={categoriaAEliminar}
-  />
-</Container>
+      <ModalEliminacionCategoria
+        mostrarModalEliminacion={mostrarModalEliminacion}
+        setMostrarModalEliminacion={setMostrarModalEliminacion}
+        eliminarCategoria={eliminarCategoria}
+        categoria={categoriaAEliminar}
+      />
+    </Container>
   );
 };
 

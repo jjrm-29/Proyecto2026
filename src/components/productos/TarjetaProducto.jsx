@@ -63,8 +63,8 @@ const TarjetasProductos = ({
               >
                 <Card.Body
                   className={`p-2 tarjeta-producto-cuerpo ${tarjetaActiva
-                      ? "tarjeta-producto-cuerpo-activo"
-                      : "tarjeta-producto-cuerpo-inactivo"
+                    ? "tarjeta-producto-cuerpo-activo"
+                    : "tarjeta-producto-cuerpo-inactivo"
                     }`}
                 >
                   <Row className="align-items-center gx-3">

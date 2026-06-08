@@ -20,11 +20,12 @@ const ModalQRProducto = ({
       <Modal.Body className="text-center py-4">
         {producto.url_imagen ? (
           <>
-            <QRCode
-              value={producto.url_imagen}
-              size={230}
-              className="mx-auto shadow-sm"
-            />
+           <QRCode
+  value={producto.url_imagen || ""}
+  size={230}
+  fgColor="#000000"
+  bgColor="#FFFFFF"
+/>
 
             <p className="text-muted mt-3 small mb-1">
               Escanea para ver la imagen del producto
