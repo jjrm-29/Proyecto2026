@@ -9,6 +9,27 @@ const ChatIA = ({ mostrar, onCerrar }) => {
   const [cargando, setCargando] = useState(false);
   const finChatRef = useRef(null);
 
+  const obtenerColumnas = (datos, columnasIA = []) => {
+    const columnasDesdeDatos = datos.reduce((columnas, fila) => {
+      Object.keys(fila || {}).forEach((columna) => {
+        if (!columnas.includes(columna)) columnas.push(columna);
+      });
+
+      return columnas;
+    }, []);
+
+    const columnasValidasIA = columnasIA.filter((columna) =>
+      columnasDesdeDatos.includes(columna)
+    );
+
+    return columnasValidasIA.length > 0 ? columnasValidasIA : columnasDesdeDatos;
+  };
+
+  const formatearNombreCampo = (campo) =>
+    campo
+      .replace(/_/g, ' ')
+      .replace(/\b\w/g, (letra) => letra.toUpperCase());
+
   const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY);
 
   const contextoBaseDatos = `
@@ -83,11 +104,12 @@ const ChatIA = ({ mostrar, onCerrar }) => {
       }
 
       const datosExtraidos = data ? data.map(item => item.datos) : [];
+      const columnas = obtenerColumnas(datosExtraidos, respuestaIA.columnas || []);
 
       const mensajeRespuesta = {
         tipo: 'ia',
         explicacion: respuestaIA.explicacion || "Consulta ejecutada correctamente",
-        columnas: respuestaIA.columnas || (datosExtraidos.length > 0 ? Object.keys(datosExtraidos[0]) : []),
+        columnas,
         datos: datosExtraidos
       };
 
@@ -113,7 +135,7 @@ const ChatIA = ({ mostrar, onCerrar }) => {
     <Modal show={mostrar} onHide={onCerrar} size="xl" centered backdrop="static" contentClassName="modal-app modal-app--chat">
       <Modal.Header closeButton>
         <Modal.Title>
-          <i className="bi bi-robot"></i>
+          <i className="bi bi-chat-dots"></i>
           Consultas Inteligentes
         </Modal.Title>
       </Modal.Header>
@@ -150,7 +172,7 @@ const ChatIA = ({ mostrar, onCerrar }) => {
                       <thead>
                         <tr>
                           {msg.columnas.map((col, i) => (
-                            <th key={i}>{col.replace(/_/g, ' ')}</th>
+                            <th key={i}>{formatearNombreCampo(col)}</th>
                           ))}
                         </tr>
                       </thead>

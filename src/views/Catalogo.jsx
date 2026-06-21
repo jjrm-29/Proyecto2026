@@ -1,8 +1,9 @@
 import React, { useEffect, useState, useMemo } from "react";
-import { Container, Row, Col, Spinner, Alert, Form } from "react-bootstrap";
+import { Row, Col, Alert, Form } from "react-bootstrap";
 import { supabase } from "../database/supabaseconfig";
 import TarjetaCatalogo from "../components/catalogo/TarjetaCatalogo";
 import CuadroBusquedas from "../components/busquedas/CuadroBusquedas";
+import VistaAnimada from "../components/landing/VistaAnimada";
 
 const Catalogo = () => {
 
@@ -97,21 +98,14 @@ const obtenerNombreCategoria = (idCategoria) => {
 };
 
   return (
-    <Container className="vista-contenedor mt-3">
-      <header className="vista-encabezado mb-0 border-0 pb-3">
-        <div className="vista-encabezado__titulo-grupo">
-          <div className="vista-encabezado__icono" aria-hidden="true">
-            <i className="bi bi-grid"></i>
-          </div>
-          <div>
-            <h2>Catálogo</h2>
-            <p className="vista-encabezado__subtitulo">
-              Productos disponibles para consulta
-            </p>
-          </div>
-        </div>
-      </header>
-
+    <VistaAnimada
+      titulo="Catálogo"
+      subtitulo="Productos disponibles para consulta"
+      icono="bi-grid"
+      panel={false}
+      cargando={cargando}
+      cargandoTexto="Cargando productos..."
+    >
   <Row className="mb-3 align-items-end">
     <Col md={4} lg={3} className="mb-2">
       <Form.Group controlId="filtroCategoria">
@@ -140,13 +134,11 @@ const obtenerNombreCategoria = (idCategoria) => {
     </Col>
   </Row>
 
-  {cargando && (
-    <Row className="text-center my-5">
-      <Col>
-        <Spinner animation="border" variant="success" size="lg" />
-        <p className="mt-3 text-muted">Cargando productos...</p>
-      </Col>
-    </Row>
+  {error && (
+    <Alert variant="danger" className="mb-3">
+      <i className="bi bi-exclamation-triangle me-2"></i>
+      {error}
+    </Alert>
   )}
 
   {!cargando && productosFiltrados?.length === 0 && (
@@ -159,7 +151,7 @@ const obtenerNombreCategoria = (idCategoria) => {
   {!cargando && productosFiltrados?.length > 0 && (
     <Row className="g-3">
       {productosFiltrados.map((producto) => (
-        <Col xs={6} sm={6} md={4} lg={3} key={producto.id_producto}>
+        <Col xs={12} sm={6} md={4} lg={3} key={producto.id_producto}>
           <TarjetaCatalogo
             producto={producto}
             categoriaNombre={obtenerNombreCategoria(producto.categoria_producto)}
@@ -168,7 +160,7 @@ const obtenerNombreCategoria = (idCategoria) => {
       ))}
     </Row>
   )}
-    </Container>
+    </VistaAnimada>
   );
 };
 

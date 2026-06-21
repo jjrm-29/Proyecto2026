@@ -11,6 +11,7 @@ import { supabase } from "../database/supabaseconfig";
 
 import NotificacionOperacion from "../components/NotificacionOperacion";
 import CuadroBusquedas from "../components/busquedas/CuadroBusquedas";
+import VistaAnimada from "../components/landing/VistaAnimada";
 import Paginacion from "../components/ordenamiento/Paginacion";
 import TablaVentas from "../components/ventas/TablaVentas";
 import TarjetaVenta from "../components/ventas/TarjetaVenta";
@@ -556,29 +557,20 @@ const Ventas = () => {
   // ==================== RETURN ====================
 
   return (
-
-    <Container className="vista-contenedor mt-3">
-      <div className="vista-panel">
-      <header className="vista-encabezado">
-        <div className="vista-encabezado__titulo-grupo">
-          <div className="vista-encabezado__icono" aria-hidden="true">
-            <i className="bi bi-receipt-cutoff"></i>
-          </div>
-          <div>
-            <h2>Ventas</h2>
-            <p className="vista-encabezado__subtitulo">
-              Registro y seguimiento de transacciones
-            </p>
-          </div>
-        </div>
-        <div className="vista-encabezado__acciones">
-          <Button variant="primary" onClick={abrirNuevaVenta}>
-            <i className="bi bi-plus-lg"></i>
-            <span className="d-none d-sm-inline ms-2">Nueva venta</span>
-          </Button>
-        </div>
-      </header>
-
+    <>
+    <VistaAnimada
+      titulo="Ventas"
+      subtitulo="Registro y seguimiento de transacciones"
+      icono="bi-receipt-cutoff"
+      cargando={cargando}
+      cargandoTexto="Cargando ventas..."
+      acciones={
+        <Button variant="primary" onClick={abrirNuevaVenta}>
+          <i className="bi bi-plus-lg"></i>
+          <span className="d-none d-sm-inline ms-2">Nueva venta</span>
+        </Button>
+      }
+    >
       <Row className="mb-4">
 
         <Col md={6} lg={5}>
@@ -595,27 +587,7 @@ const Ventas = () => {
 
       </Row>
 
-      {cargando ? (
-
-        <Row className="text-center my-5">
-
-          <Spinner
-            animation="border"
-            variant="primary"
-            size="lg"
-          />
-
-          <p className="mt-3 text-muted fw-medium">
-
-            Cargando ventas...
-
-          </p>
-
-        </Row>
-
-      ) : (
-
-        <Row>
+      <Row>
 
           <Col
             xs={12}
@@ -647,8 +619,6 @@ const Ventas = () => {
 
         </Row>
 
-      )}
-
       {ventasFiltradas.length > 0 && (
 
         <Paginacion
@@ -671,7 +641,7 @@ const Ventas = () => {
 
       )}
 
-      </div>
+    </VistaAnimada>
 
       <FormularioVenta
         mostrar={mostrarFormulario}
@@ -726,7 +696,7 @@ const Ventas = () => {
         }
       />
 
-    </Container>
+    </>
   );
 };
 

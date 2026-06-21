@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Container, Row, Col, Button, Spinner, Alert } from "react-bootstrap";
+import { Row, Col, Button, Alert } from "react-bootstrap";
 import { supabase } from "../database/supabaseconfig";
 
 import ModalRegistroCategoria from "../components/categorias/ModalRegistroCategoria";
@@ -11,9 +11,11 @@ import TarjetaCategoria from "../components/categorias/TarjetaCategoria";
 import CuadroBusquedas from "../components/busquedas/CuadroBusquedas";
 import Paginacion from "../components/ordenamiento/Paginacion";
 import ModalEnvioCorreoCategorias from "../components/categorias/ModalEnvioCorreoCategorias";
+import VistaAnimada from "../components/landing/VistaAnimada";
 import emailjs from "@emailjs/browser";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
+import { descargarBlob } from "../utils/descargas";
 
 const Categorias = () => {
   const [toast, setToast] = useState({
@@ -100,8 +102,7 @@ Descripción: ${categoria.descripcion_categoria}
       ],
     });
 
-    // Descargar PDF
-    doc.save(`categoria_${categoria.id_categoria}.pdf`);
+    descargarBlob(doc.output("blob"), `categoria_${categoria.id_categoria}.pdf`);
   };
 
 
@@ -419,21 +420,13 @@ Descripción: ${categoria.descripcion_categoria}
   }, []);
 
   return (
-    <Container className="vista-contenedor mt-3">
-      <div className="vista-panel">
-        <header className="vista-encabezado">
-          <div className="vista-encabezado__titulo-grupo">
-            <div className="vista-encabezado__icono" aria-hidden="true">
-              <i className="bi bi-bookmarks"></i>
-            </div>
-            <div>
-              <h2>Categorías</h2>
-              <p className="vista-encabezado__subtitulo">
-                Clasificación de productos del inventario
-              </p>
-            </div>
-          </div>
-          <div className="vista-encabezado__acciones">
+    <>
+      <VistaAnimada
+        titulo="Categorías"
+        subtitulo="Clasificación de productos del inventario"
+        icono="bi-bookmarks"
+        acciones={
+          <>
             <Button variant="outline-primary" onClick={abrirModalCorreo}>
               <i className="bi bi-envelope"></i>
               <span className="d-none d-lg-inline ms-2">Enviar por correo</span>
@@ -442,9 +435,9 @@ Descripción: ${categoria.descripcion_categoria}
               <i className="bi bi-plus-lg"></i>
               <span className="d-none d-lg-inline ms-2">Nueva categoría</span>
             </Button>
-          </div>
-        </header>
-
+          </>
+        }
+      >
         <Row className="mb-4">
           <Col md={6} lg={5}>
             <CuadroBusquedas
@@ -506,7 +499,7 @@ Descripción: ${categoria.descripcion_categoria}
           />
         )}
 
-      </div>
+      </VistaAnimada>
 
       <ModalRegistroCategoria
         mostrarModal={mostrarModal}
@@ -547,7 +540,7 @@ Descripción: ${categoria.descripcion_categoria}
         eliminarCategoria={eliminarCategoria}
         categoria={categoriaAEliminar}
       />
-    </Container>
+    </>
   );
 };
 

@@ -18,6 +18,7 @@ import TablaClientes from "../components/cliente/TablaCliente";
 
 import NotificacionOperacion from "../components/NotificacionOperacion";
 import CuadroBusquedas from "../components/busquedas/CuadroBusquedas";
+import VistaAnimada from "../components/landing/VistaAnimada";
 import Paginacion from "../components/ordenamiento/Paginacion";
 
 const Clientes = () => {
@@ -455,33 +456,22 @@ const Clientes = () => {
   // =========================
 
   return (
-    <Container fluid className="vista-contenedor px-0">
-      <div className="vista-panel">
-          <header className="vista-encabezado">
-            <div className="vista-encabezado__titulo-grupo">
-              <div className="vista-encabezado__icono" aria-hidden="true">
-                <i className="bi bi-people-fill"></i>
-              </div>
-              <div>
-                <h2>Clientes</h2>
-                <p className="vista-encabezado__subtitulo">
-                  Gestión y administración de clientes
-                </p>
-              </div>
-            </div>
-            <div className="vista-encabezado__acciones">
-              <Button
-                variant="primary"
-                onClick={() => setMostrarModal(true)}
-              >
-                <i className="bi bi-plus-lg me-2"></i>
-                Nuevo cliente
-              </Button>
-            </div>
-          </header>
-
-          {/* BUSQUEDA */}
-
+    <>
+      <VistaAnimada
+        fluid
+        className="px-0"
+        titulo="Clientes"
+        subtitulo="Gestión y administración de clientes"
+        icono="bi-people-fill"
+        cargando={cargando}
+        cargandoTexto="Cargando clientes..."
+        acciones={
+          <Button variant="primary" onClick={() => setMostrarModal(true)}>
+            <i className="bi bi-plus-lg me-2"></i>
+            Nuevo cliente
+          </Button>
+        }
+      >
           <Row className="mb-4">
 
             <Col lg={5} md={7}>
@@ -525,39 +515,7 @@ const Clientes = () => {
 
           )}
 
-          {/* LOADING */}
-
-          {cargando && (
-
-            <Row className="text-center py-5">
-
-              <Col>
-
-                <Spinner
-                  animation="border"
-                  variant="primary"
-                  style={{
-                    width: "3rem",
-                    height: "3rem"
-                  }}
-                />
-
-                <p className="mt-3 text-muted fw-medium">
-
-                  Cargando clientes...
-
-                </p>
-
-              </Col>
-
-            </Row>
-
-          )}
-
-          {/* TABLAS */}
-
-          {!cargando &&
-            clientesFiltrados.length > 0 && (
+          {clientesFiltrados.length > 0 && (
 
             <Row>
 
@@ -609,7 +567,7 @@ const Clientes = () => {
 
           )}
 
-      </div>
+      </VistaAnimada>
 
       {/* MODALES */}
 
@@ -648,7 +606,7 @@ const Clientes = () => {
         }
       />
 
-    </Container>
+    </>
   );
 };
 

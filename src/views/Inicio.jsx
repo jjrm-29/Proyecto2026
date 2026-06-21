@@ -1,17 +1,37 @@
-import React, { useEffect, useState, useRef  } from "react";
-import { Container, Row, Col, Card, Spinner, Form, Button } from "react-bootstrap";
+import { useEffect, useState, useRef } from "react";
+import { Row, Col, Card, Form, Button, Offcanvas, Nav } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from "recharts";
 import { supabase } from "../database/supabaseconfig";
 import * as XLSX from "xlsx";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import html2canvas from "html2canvas";
+import ChatIA from "../components/ia/ChatIA";
+import { descargarBlob } from "../utils/descargas";
 
 
 const Inicio = () => {
 
   const [cargando, setCargando] = useState(true);
+  const [menuAbierto, setMenuAbierto] = useState(false);
+  const [mostrarChatIA, setMostrarChatIA] = useState(false);
   const graficoHoraRef = useRef(null);
+  const navigate = useNavigate();
+
+  const opcionesMenu = [
+    { texto: "Inicio", icono: "bi-house-door", tipo: "seccion", destino: "inicio-hero" },
+    { texto: "Resumen", icono: "bi-stars", tipo: "seccion", destino: "inicio-resumen" },
+    { texto: "Estadisticas", icono: "bi-graph-up-arrow", tipo: "seccion", destino: "inicio-estadisticas" },
+    { texto: "Reportes", icono: "bi-file-earmark-bar-graph", tipo: "seccion", destino: "inicio-reportes" },
+    { texto: "Categorias", icono: "bi-tags", tipo: "ruta", destino: "/categorias" },
+    { texto: "Productos", icono: "bi-box-seam", tipo: "ruta", destino: "/productos" },
+    { texto: "Clientes", icono: "bi-people", tipo: "ruta", destino: "/clientes" },
+    { texto: "Ventas", icono: "bi-receipt", tipo: "ruta", destino: "/ventas" },
+    { texto: "Catalogo", icono: "bi-grid-3x3-gap", tipo: "ruta", destino: "/catalogo" },
+    { texto: "Dashboard", icono: "bi-speedometer2", tipo: "ruta", destino: "/dashboard" },
+    { texto: "Asistente IA", icono: "bi-chat-dots", tipo: "accion", destino: "ia" },
+  ];
 
   const [fechaDesde, setFechaDesde] = useState(
     new Date().toLocaleDateString("en-CA", {
@@ -39,6 +59,25 @@ const Inicio = () => {
   useEffect(() => {
     cargarDatos(fechaDesde, fechaHasta);
   }, [fechaDesde, fechaHasta]);
+
+  useEffect(() => {
+    const elementos = document.querySelectorAll(".inicio-futurista-reveal");
+
+    const observador = new IntersectionObserver(
+      (entradas) => {
+        entradas.forEach((entrada) => {
+          if (entrada.isIntersecting) {
+            entrada.target.classList.add("inicio-futurista-reveal--visible");
+          }
+        });
+      },
+      { threshold: 0.16, rootMargin: "0px 0px -8% 0px" }
+    );
+
+    elementos.forEach((elemento) => observador.observe(elemento));
+
+    return () => observador.disconnect();
+  }, []);
 
   const generarPdfVentasHora = async () => {
   try {
@@ -109,12 +148,12 @@ const Inicio = () => {
       body: filas
     });
 
-    // Descargar PDF
     const fechaActual = new Date().toLocaleDateString("en-CA", {
       timeZone: "America/Managua"
     });
 
-    pdf.save(
+    descargarBlob(
+      pdf.output("blob"),
       `VentasHora_${fechaDesde}_${fechaHasta}_Generado_${fechaActual}.pdf`
     );
 
@@ -332,8 +371,15 @@ const Inicio = () => {
         );
       }
 
-      XLSX.writeFile(
-        wb,
+      const datosExcel = XLSX.write(wb, {
+        bookType: "xlsx",
+        type: "array"
+      });
+
+      descargarBlob(
+        new Blob([datosExcel], {
+          type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        }),
         `Reporte_Ventas_${fechaDesde}_a_${fechaHasta}.xlsx`
       );
 
@@ -355,36 +401,152 @@ const Inicio = () => {
     "#ef4444",
   ];
 
-  if (cargando) {
-    return (
-      <Container className="text-center mt-5 vista-contenedor">
-        <Spinner animation="border" variant="primary" size="lg" />
-        <p className="mt-3 text-muted">Cargando estadísticas...</p>
-      </Container>
-    );
-  }
+  const irAOpcion = (opcion) => {
+    setMenuAbierto(false);
+
+    if (opcion.tipo === "accion") {
+      setMostrarChatIA(true);
+      return;
+    }
+
+    if (opcion.tipo === "ruta") {
+      navigate(opcion.destino);
+      return;
+    }
+
+    document.getElementById(opcion.destino)?.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
+  };
 
   return (
-    <Container fluid className="pagina-inicio vista-contenedor px-0">
-      <header className="inicio-hero">
-        <Row className="align-items-center">
-          <Col md={8}>
-            <h2 className="inicio-hero__titulo">
-              <i className="bi bi-bar-chart-line me-2 text-primary"></i>
-              Resumen del negocio
-            </h2>
-            <p className="inicio-hero__subtitulo">
-              Estadísticas según el rango de fechas seleccionado
-            </p>
-          </Col>
-          <Col md={4} className="text-md-end mt-3 mt-md-0">
-            <Button variant="success" onClick={descargarExcel}>
-              <i className="bi bi-file-earmark-excel me-2"></i>
-              Descargar Excel
+    <div className="pagina-inicio pagina-inicio-futurista px-0">
+      <button
+        type="button"
+        className="inicio-menu-futurista"
+        onClick={() => setMenuAbierto(true)}
+        aria-label="Abrir menu de navegacion"
+        title="Abrir menu"
+      >
+        <i className="bi bi-list"></i>
+      </button>
+
+      <Offcanvas
+        show={menuAbierto}
+        onHide={() => setMenuAbierto(false)}
+        placement="start"
+        className="inicio-offcanvas-futurista"
+      >
+        <Offcanvas.Header closeButton>
+          <Offcanvas.Title>
+            <span>Menu Pulperia</span>
+            <small>Navegacion del negocio</small>
+          </Offcanvas.Title>
+        </Offcanvas.Header>
+        <Offcanvas.Body>
+          <Nav className="inicio-menu-lista">
+            {opcionesMenu.map((opcion) => (
+              <Nav.Link
+                key={`${opcion.tipo}-${opcion.destino}`}
+                onClick={() => irAOpcion(opcion)}
+              >
+                <i className={`bi ${opcion.icono}`}></i>
+                <span>{opcion.texto}</span>
+              </Nav.Link>
+            ))}
+          </Nav>
+        </Offcanvas.Body>
+      </Offcanvas>
+
+      <ChatIA mostrar={mostrarChatIA} onCerrar={() => setMostrarChatIA(false)} />
+
+      <section id="inicio-hero" className="inicio-futurista-hero">
+        <div className="inicio-futurista-hero__contenido inicio-futurista-reveal">
+          <span className="inicio-futurista-hero__badge">Pulperia inteligente</span>
+          <h1>Tu pulperia organizada, animada y lista para vender.</h1>
+          <p>
+            Acceso rapido a caja, inventario, clientes y reportes con una escena
+            de pulperia que se mantiene viva tambien en celular.
+          </p>
+          <div className="inicio-futurista-hero__acciones">
+            <Button onClick={() => irAOpcion({ tipo: "seccion", destino: "inicio-estadisticas" })}>
+              <i className="bi bi-activity me-2"></i>
+              Ver estadisticas
             </Button>
-          </Col>
-        </Row>
-      </header>
+            <Button variant="outline-light" onClick={() => setMenuAbierto(true)}>
+              <i className="bi bi-grid me-2"></i>
+              Abrir menu
+            </Button>
+          </div>
+        </div>
+
+        <div className="inicio-pulperia-panel inicio-futurista-reveal" aria-label="Pulperia animada">
+          <div className="pulperia-animada">
+            <div className="pulperia-animada__toldo">
+              <span></span><span></span><span></span><span></span>
+            </div>
+            <div className="pulperia-animada__letrero">Pulperia</div>
+            <div className="pulperia-animada__estantes">
+              <span className="producto producto--botella"></span>
+              <span className="producto producto--caja"></span>
+              <span className="producto producto--lata"></span>
+              <span className="producto producto--bolsa"></span>
+              <span className="producto producto--caja producto--pequena"></span>
+              <span className="producto producto--botella producto--alta"></span>
+            </div>
+            <div className="pulperia-animada__mostrador">
+              <span className="pulperia-animada__scanner"></span>
+              <span className="pulperia-animada__bolsa"></span>
+            </div>
+            <div className="pulperia-animada__luces" aria-hidden="true">
+              <span></span><span></span><span></span>
+            </div>
+          </div>
+          <div className="inicio-pulperia-panel__estado">
+            <span></span>
+            Caja lista para vender
+          </div>
+        </div>
+      </section>
+
+      <section id="inicio-resumen" className="inicio-futurista-seccion inicio-futurista-reveal">
+        <div>
+          <span className="inicio-futurista-etiqueta">Panel principal</span>
+          <h2>Todo lo importante queda a un toque.</h2>
+        </div>
+        <div className="inicio-futurista-grid">
+          <article>
+            <i className="bi bi-lightning-charge"></i>
+            <h3>Acceso veloz</h3>
+            <p>El menu lateral concentra las rutas principales sin ocupar el encabezado.</p>
+          </article>
+          <article>
+            <i className="bi bi-shop"></i>
+            <h3>Pulperia animada</h3>
+            <p>La entrada se siente conectada al negocio real: productos, caja y movimiento.</p>
+          </article>
+          <article>
+            <i className="bi bi-bar-chart"></i>
+            <h3>Datos vivos</h3>
+            <p>Las metricas y graficas siguen conectadas al rango de fechas del negocio.</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="inicio-estadisticas" className="inicio-futurista-reveal">
+        <div className="inicio-futurista-encabezado">
+          <div>
+            <span className="inicio-futurista-etiqueta">Estadisticas</span>
+            <h2>Resumen del negocio</h2>
+            <p>Datos segun el rango de fechas seleccionado.</p>
+          </div>
+          <Button variant="success" onClick={descargarExcel} disabled={cargando}>
+            <i className="bi bi-file-earmark-excel me-2"></i>
+            <span className="d-none d-sm-inline">Descargar Excel</span>
+            <span className="d-inline d-sm-none">Excel</span>
+          </Button>
+        </div>
 
       <Card className="tarjeta-panel mb-0">
         <Card.Body>
@@ -475,7 +637,9 @@ const Inicio = () => {
           </div>
         </Col>
       </Row>
+      </section>
 
+      <section id="inicio-reportes" className="inicio-futurista-reveal">
       <Row className="g-3">
         <Col lg={8}>
           <Card className="tarjeta-panel h-100">
@@ -553,7 +717,8 @@ const Inicio = () => {
           </Card>
         </Col>
       </Row>
-    </Container>
+      </section>
+    </div>
   );
 };
 

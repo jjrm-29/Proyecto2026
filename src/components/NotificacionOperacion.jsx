@@ -65,9 +65,8 @@ const NotificacionOperacion = ({
           setVisible(false);
           onCerrar();
         }}
-        className="border-0 overflow-hidden"
+        className="notificacion-operacion border-0 overflow-hidden"
         style={{
-          minWidth: "420px",
           borderRadius: "22px",
           background: "#ffffff",
           boxShadow:

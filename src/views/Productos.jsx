@@ -16,6 +16,7 @@ import ModalEdicionProducto from "../components/productos/ModalEdicionProducto";
 
 import NotificacionOperacion from "../components/NotificacionOperacion";
 import CuadroBusquedas from "../components/busquedas/CuadroBusquedas";
+import VistaAnimada from "../components/landing/VistaAnimada";
 import TablaProductos from "../components/productos/TablaProducto";
 import Paginacion from "../components/ordenamiento/Paginacion";
 import TarjetaProducto from "../components/productos/TarjetaProducto";
@@ -576,29 +577,20 @@ const Productos = () => {
   // ==================== RETURN ====================
 
   return (
-
-    <Container className="vista-contenedor mt-3">
-      <div className="vista-panel">
-      <header className="vista-encabezado">
-        <div className="vista-encabezado__titulo-grupo">
-          <div className="vista-encabezado__icono" aria-hidden="true">
-            <i className="bi bi-box-seam"></i>
-          </div>
-          <div>
-            <h2>Productos</h2>
-            <p className="vista-encabezado__subtitulo">
-              Inventario y precios del catálogo
-            </p>
-          </div>
-        </div>
-        <div className="vista-encabezado__acciones">
-          <Button variant="primary" onClick={() => setMostrarModal(true)}>
-            <i className="bi bi-plus-lg"></i>
-            <span className="d-none d-sm-inline ms-2">Nuevo producto</span>
-          </Button>
-        </div>
-      </header>
-
+    <>
+    <VistaAnimada
+      titulo="Productos"
+      subtitulo="Inventario y precios del catálogo"
+      icono="bi-box-seam"
+      cargando={cargando}
+      cargandoTexto="Cargando productos..."
+      acciones={
+        <Button variant="primary" onClick={() => setMostrarModal(true)}>
+          <i className="bi bi-plus-lg"></i>
+          <span className="d-none d-sm-inline ms-2">Nuevo producto</span>
+        </Button>
+      }
+    >
       <Row className="mb-4">
 
         <Col md={6} lg={5}>
@@ -613,25 +605,7 @@ const Productos = () => {
 
       </Row>
 
-      {cargando ? (
-
-        <Row className="text-center my-5">
-
-          <Spinner
-            animation="border"
-            variant="primary"
-            size="lg"
-          />
-
-          <p className="mt-3 text-muted fw-medium">
-
-            Cargando productos...
-
-          </p>
-
-        </Row>
-
-      ) : !productosFiltrados.length ? (
+      {!productosFiltrados.length ? (
 
         <Alert
           variant="light"
@@ -704,7 +678,7 @@ const Productos = () => {
 
       )}
 
-      </div>
+    </VistaAnimada>
 
       <ModalRegistroProducto
         mostrarModal={mostrarModal}
@@ -751,7 +725,7 @@ const Productos = () => {
         }
       />
 
-    </Container>
+    </>
   );
 };
 

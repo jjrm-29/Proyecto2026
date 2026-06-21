@@ -1,22 +1,14 @@
-import { Container } from "react-bootstrap";
+import VistaAnimada from "../components/landing/VistaAnimada";
 
 const Dashboard = () => {
   return (
-    <Container className="vista-contenedor">
-      <header className="vista-encabezado mb-3">
-        <div className="vista-encabezado__titulo-grupo">
-          <div className="vista-encabezado__icono" aria-hidden="true">
-            <i className="bi bi-graph-up"></i>
-          </div>
-          <div>
-            <h2>Dashboard Power BI</h2>
-            <p className="vista-encabezado__subtitulo">
-              Reportes y análisis avanzados
-            </p>
-          </div>
-        </div>
-      </header>
-      <div className="dashboard-embed" style={{ height: "min(75vh, 720px)" }}>
+    <VistaAnimada
+      titulo="Dashboard Power BI"
+      subtitulo="Reportes y análisis avanzados"
+      icono="bi-graph-up"
+      panel={false}
+    >
+      <div className="dashboard-embed vista-panel" style={{ height: "min(75vh, 720px)" }}>
         <iframe
           title="estadisticas"
           width="100%"
@@ -25,7 +17,7 @@ const Dashboard = () => {
           allowFullScreen
         ></iframe>
       </div>
-    </Container>
+    </VistaAnimada>
   );
 };
 

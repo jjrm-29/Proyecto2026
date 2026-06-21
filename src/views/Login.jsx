@@ -1,6 +1,12 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { Button } from "react-bootstrap";
+
 import FormularioLogin from "../components/Login/FormularioLogin";
+import FadeEscalonado from "../components/landing/FadeEscalonado";
+import HeroSplit from "../components/landing/HeroSplit";
+import TextoKinetico from "../components/landing/TextoKinetico";
+import useAnimacionEntrada from "../hooks/useAnimacionEntrada";
 import { supabase } from "../database/supabaseconfig";
 
 function Login() {
@@ -10,7 +16,7 @@ function Login() {
   const [mostrarPassword, setMostrarPassword] = useState(false);
   const [recordarme, setRecordarme] = useState(false);
   const [cargando, setCargando] = useState(false);
-
+  const animar = useAnimacionEntrada();
   const navegar = useNavigate();
 
   useEffect(() => {
@@ -20,6 +26,13 @@ function Login() {
       setRecordarme(true);
     }
   }, []);
+
+  useEffect(() => {
+    const usuarioGuardado = localStorage.getItem("usuario-supabase");
+    if (usuarioGuardado) {
+      navegar("/");
+    }
+  }, [navegar]);
 
   const iniciarSesion = async () => {
     try {
@@ -31,14 +44,13 @@ function Login() {
       setError(null);
       setCargando(true);
 
-      const { data, error: errorSupabase } =
-        await supabase.auth.signInWithPassword({
-          email: usuario.trim().toLowerCase(),
-          password: contrasena,
-        });
+      const { data, error: errorSupabase } = await supabase.auth.signInWithPassword({
+        email: usuario.trim().toLowerCase(),
+        password: contrasena,
+      });
 
       if (errorSupabase) {
-        setError("Usuario o contraseña incorrectos");
+        setError("Usuario o contrasena incorrectos");
         setCargando(false);
         return;
       }
@@ -67,36 +79,125 @@ function Login() {
     }
   };
 
-  useEffect(() => {
-    const usuarioGuardado = localStorage.getItem("usuario-supabase");
-    if (usuarioGuardado) {
-      navegar("/");
-    }
-  }, [navegar]);
+  const metricas = [
+    { icono: "bi-basket2", texto: "Caja" },
+    { icono: "bi-box-seam", texto: "Inventario" },
+    { icono: "bi-receipt", texto: "Ventas" },
+  ];
 
   return (
-    <div className="login-pagina">
-      <div className="login-tarjeta">
-        <div className="login-tarjeta__marca">
-          <h1>Sistema de ventas</h1>
-          <p>Ingresa con tu cuenta de empleado</p>
-        </div>
+    <div className={`login-pagina ${animar ? "login-pagina--animada" : ""}`}>
+      <HeroSplit
+        variante="login"
+        activo={animar}
+        className="login-hero-split"
+        panelIzquierdo={
+          <>
+            <FadeEscalonado activo={animar} delayBase={0.05} delayStep={0.12}>
+              <div className="login-pulperia-escena" aria-label="Pulperia animada">
+                <div className="pulperia-animada pulperia-animada--login">
+                  <div className="pulperia-animada__toldo">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                  <div className="pulperia-animada__letrero">Pulperia</div>
+                  <div className="pulperia-animada__estantes">
+                    <span className="producto producto--botella"></span>
+                    <span className="producto producto--caja"></span>
+                    <span className="producto producto--lata"></span>
+                    <span className="producto producto--bolsa"></span>
+                    <span className="producto producto--caja producto--pequena"></span>
+                    <span className="producto producto--botella producto--alta"></span>
+                  </div>
+                  <div className="pulperia-animada__mostrador">
+                    <span className="pulperia-animada__scanner"></span>
+                    <span className="pulperia-animada__bolsa"></span>
+                  </div>
+                  <div className="pulperia-animada__luces" aria-hidden="true">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                </div>
+              </div>
 
-        <FormularioLogin
-          usuario={usuario}
-          contrasena={contrasena}
-          error={error}
-          setUsuario={setUsuario}
-          setContrasena={setContrasena}
-          iniciarSesion={iniciarSesion}
-          mostrarPassword={mostrarPassword}
-          setMostrarPassword={setMostrarPassword}
-          recordarme={recordarme}
-          setRecordarme={setRecordarme}
-          cargando={cargando}
-          manejarEnter={manejarEnter}
-        />
-      </div>
+              <div className="login-visual__texto">
+                <span className="login-visual__badge">Pulperia conectada</span>
+                <TextoKinetico
+                  texto="Control de caja, productos y clientes en un solo lugar"
+                  etiqueta="h2"
+                  modo="palabras"
+                  delay={0.15}
+                  activo={animar}
+                />
+                <p className="login-visual__descripcion">
+                  Accede al panel para vender, revisar inventario, consultar reportes
+                  y moverte por el sistema con una experiencia clara en celular.
+                </p>
+              </div>
+            </FadeEscalonado>
+
+            <FadeEscalonado
+              className="login-visual__metricas"
+              activo={animar}
+              delayBase={0.55}
+              delayStep={0.1}
+            >
+              {metricas.map((metrica) => (
+                <div key={metrica.texto}>
+                  <i className={`bi ${metrica.icono}`}></i>
+                  <strong>{metrica.texto}</strong>
+                </div>
+              ))}
+            </FadeEscalonado>
+
+            <div className="login-visual__enlace-catalogo">
+              <Button
+                as={Link}
+                to="/catalogo"
+                variant="outline-light"
+                size="sm"
+                className="login-btn-catalogo"
+              >
+                <i className="bi bi-grid me-2"></i>
+                Ver catalogo publico
+              </Button>
+            </div>
+          </>
+        }
+        panelDerecho={
+          <FadeEscalonado activo={animar} delayBase={0.2} delayStep={0.12}>
+            <div className="login-tarjeta__marca">
+              <TextoKinetico
+                texto="Sistema de ventas"
+                etiqueta="h1"
+                modo="letras"
+                delay={0.35}
+                activo={animar}
+                className="login-tarjeta__titulo-kinetico"
+              />
+              <p>Ingresa con tu cuenta de empleado</p>
+            </div>
+
+            <FormularioLogin
+              usuario={usuario}
+              contrasena={contrasena}
+              error={error}
+              setUsuario={setUsuario}
+              setContrasena={setContrasena}
+              iniciarSesion={iniciarSesion}
+              mostrarPassword={mostrarPassword}
+              setMostrarPassword={setMostrarPassword}
+              recordarme={recordarme}
+              setRecordarme={setRecordarme}
+              cargando={cargando}
+              manejarEnter={manejarEnter}
+            />
+          </FadeEscalonado>
+        }
+      />
     </div>
   );
 }

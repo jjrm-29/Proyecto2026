@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Container, Row, Col, Button, Alert, Spinner } from "react-bootstrap";
+import { Row, Col, Button, Alert } from "react-bootstrap";
 import { supabase } from "../database/supabaseconfig";
 
 import ModalRegistroEmpleado from "../components/empleado/ModalRegistroEmpleado";
@@ -8,6 +8,7 @@ import TablaEmpleados from "../components/empleado/TablaEmpleados";
 import TarjetaEmpleado from "../components/empleado/TarjetaEmpleado";
 import NotificacionOperacion from "../components/NotificacionOperacion";
 import CuadroBusquedas from "../components/busquedas/CuadroBusquedas";
+import VistaAnimada from "../components/landing/VistaAnimada";
 
 const Empleados = () => {
     const [empleados, setEmpleados] = useState([]);
@@ -174,28 +175,20 @@ const Empleados = () => {
     };
 
     return (
-        <Container className="vista-contenedor mt-3">
-            <div className="vista-panel">
-            <header className="vista-encabezado">
-                <div className="vista-encabezado__titulo-grupo">
-                    <div className="vista-encabezado__icono" aria-hidden="true">
-                        <i className="bi bi-person-badge"></i>
-                    </div>
-                    <div>
-                        <h2>Empleados</h2>
-                        <p className="vista-encabezado__subtitulo">
-                            Personal y accesos del sistema
-                        </p>
-                    </div>
-                </div>
-                <div className="vista-encabezado__acciones">
+        <>
+            <VistaAnimada
+                titulo="Empleados"
+                subtitulo="Personal y accesos del sistema"
+                icono="bi-person-badge"
+                cargando={cargando}
+                cargandoTexto="Cargando empleados..."
+                acciones={
                     <Button variant="primary" onClick={() => setMostrarModal(true)}>
                         <i className="bi bi-plus-lg me-1"></i>
                         Nuevo empleado
                     </Button>
-                </div>
-            </header>
-
+                }
+            >
             <Row className="mb-4">
                 <Col md={6}>
                     <CuadroBusquedas
@@ -204,16 +197,6 @@ const Empleados = () => {
                     />
                 </Col>
             </Row>
-
-            {/* Spinner de carga inicial */}
-            {cargando && (
-                <Row className="text-center my-5">
-                    <Col>
-                        <Spinner animation="border" variant="success" size="lg" />
-                        <p className="mt-3 text-muted">Cargando empleados...</p>
-                    </Col>
-                </Row>
-            )}
 
             {/* Alert cuando no hay coincidencias en la búsqueda */}
             {!cargando && textoBusqueda.trim() && empleadosFiltrados.length === 0 && (
@@ -245,7 +228,7 @@ const Empleados = () => {
                 </Row>
             )}
 
-            </div>
+            </VistaAnimada>
 
             {/* Modales */}
             <ModalRegistroEmpleado
@@ -270,7 +253,7 @@ const Empleados = () => {
                 tipo={toast.tipo}
                 onCerrar={() => setToast({ ...toast, mostrar: false })}
             />
-        </Container>
+        </>
     );
 };
 

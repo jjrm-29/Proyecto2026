@@ -61,10 +61,11 @@ for (let numeroPagina = paginaInicio; numeroPagina <= paginaFin; numeroPagina++)
 
     return (
 
-        <Row className="mt-1 align-items-center paginacion-contenedor">
+        <Row className="mt-3 g-2 align-items-center paginacion-contenedor">
 
     {/* Selector de cantidad de registros */}
-    <Col xs="auto">
+    <Col xs={12} sm="auto" className="paginacion-contenedor__selector">
+        <span className="paginacion-contenedor__label">Ver</span>
         <Form.Select
             size="sm"
             value={registrosPorPagina}
@@ -76,11 +77,12 @@ for (let numeroPagina = paginaInicio; numeroPagina <= paginaFin; numeroPagina++)
             <option value={100}>100</option>
             <option value={500}>500</option>
         </Form.Select>
+        <span className="paginacion-contenedor__label">registros</span>
     </Col>
 
     {/* Controles de paginación */}
-    <Col className="d-flex justify-content-center">
-        <Pagination className="mt-2">
+    <Col xs={12} sm className="d-flex justify-content-center justify-content-sm-end">
+        <Pagination className="mb-0 flex-wrap justify-content-center">
 
             <Pagination.First
                 onClick={() => cambiarPagina(1)}
