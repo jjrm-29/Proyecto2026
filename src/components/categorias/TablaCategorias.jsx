@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Table, Spinner, Button } from "react-bootstrap";
 import "bootstrap-icons/font/bootstrap-icons.css";
 
@@ -9,17 +9,7 @@ const TablaCategorias = ({
   generarPDFCategoria,
   copiarCategoria
 }) => {
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    if (categorias && categorias.length > 0) {
-      setLoading(false);
-    } else {
-      setLoading(true);
-    }
-  }, [categorias]);
-
-  
+  const loading = !(categorias && categorias.length > 0);
 
   return (
     <>

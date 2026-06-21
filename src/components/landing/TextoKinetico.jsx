@@ -2,12 +2,13 @@ import React from "react";
 
 const TextoKinetico = ({
   texto,
-  etiqueta: Etiqueta = "span",
+  etiqueta = "span",
   modo = "palabras",
   delay = 0,
   className = "",
   activo = true,
 }) => {
+  const Etiqueta = etiqueta;
   const unidades =
     modo === "letras"
       ? [...texto]

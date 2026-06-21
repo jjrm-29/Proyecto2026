@@ -7,12 +7,8 @@ const TarjetaCliente = ({
   abrirModalEdicion,
   abrirModalEliminacion,
 }) => {
-  const [cargando, setCargando] = useState(true);
+  const cargando = !(clientes && clientes.length > 0);
   const [idTarjetaActiva, setIdTarjetaActiva] = useState(null);
-
-  useEffect(() => {
-    setCargando(!(clientes && clientes.length > 0));
-  }, [clientes]);
 
   const manejarTeclaEscape = useCallback((evento) => {
     if (evento.key === "Escape") setIdTarjetaActiva(null);

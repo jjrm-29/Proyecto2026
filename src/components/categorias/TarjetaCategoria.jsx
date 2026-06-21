@@ -10,12 +10,8 @@ const TarjetaCategoria = ({
     generarPDFCategoria,
     copiarCategoria
 }) => {
-    const [cargando, setCargando] = useState(true);
+    const cargando = !(categorias && categorias.length > 0);
     const [idTarjetaActiva, setIdTarjetaActiva] = useState(null);
-
-    useEffect(() => {
-        setCargando(!(categorias && categorias.length > 0));
-    }, [categorias]);
 
     const manejarTeclaEscape = useCallback((evento) => {
         if (evento.key === "Escape") setIdTarjetaActiva(null);

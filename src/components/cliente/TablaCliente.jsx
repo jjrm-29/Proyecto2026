@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import {
   Table,
   Spinner,
@@ -12,12 +12,7 @@ const TablaClientes = ({
   abrirModalEdicion,
   abrirModalEliminacion,
 }) => {
-
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    setLoading(!(clientes && clientes.length > 0));
-  }, [clientes]);
+  const loading = !(clientes && clientes.length > 0);
 
   return (
     <>

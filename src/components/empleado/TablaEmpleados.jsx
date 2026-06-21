@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Table, Spinner, Button } from "react-bootstrap";
 import "bootstrap-icons/font/bootstrap-icons.css";
 
@@ -6,15 +6,7 @@ const TablaEmpleados = ({
     empleados,
     abrirModalEdicion
 }) => {
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        if (empleados && empleados.length > 0) {
-            setLoading(false);
-        } else {
-            setLoading(true);
-        }
-    }, [empleados]);
+    const loading = !(empleados && empleados.length > 0);
 
     return (
         <>

@@ -17,7 +17,6 @@ const FormularioVenta = ({
   totalGeneral,
   agregarDetalle,
   eliminarDetalle,
-  actualizarCantidad,
   guardarVenta,
   ventaAEditar
 }) => {

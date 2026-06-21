@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1780425895262" clover="3.2.0">
-  <project timestamp="1780425895262" name="All files">
-    <metrics statements="14" coveredstatements="13" conditionals="21" coveredconditionals="20" methods="1" coveredmethods="1" elements="36" coveredelements="34" complexity="0" loc="14" ncloc="14" packages="1" files="1" classes="1"/>
-    <file name="registroProducto.js" path="C:\Users\juanj\OneDrive\Desktop\Proyecto2026\src\test\registroProducto.js">
+<coverage generated="1782083515820" clover="3.2.0">
+  <project timestamp="1782083515820" name="All files">
+    <metrics statements="16" coveredstatements="15" conditionals="21" coveredconditionals="20" methods="2" coveredmethods="2" elements="39" coveredelements="37" complexity="0" loc="16" ncloc="16" packages="1" files="2" classes="2"/>
+    <file name="registroProducto.js" path="C:\Users\juanj\Documents\Paginas WEB\Proyecto2026\src\test\registroProducto.js">
       <metrics statements="14" coveredstatements="13" conditionals="21" coveredconditionals="20" methods="1" coveredmethods="1"/>
       <line num="2" count="5" type="stmt"/>
       <line num="5" count="5" type="cond" truecount="7" falsecount="0"/>
@@ -18,6 +18,11 @@
       <line num="27" count="1" type="stmt"/>
       <line num="30" count="1" type="stmt"/>
       <line num="33" count="1" type="stmt"/>
+    </file>
+    <file name="suma.js" path="C:\Users\juanj\Documents\Paginas WEB\Proyecto2026\src\test\suma.js">
+      <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+      <line num="4" count="1" type="stmt"/>
+      <line num="6" count="1" type="stmt"/>
     </file>
   </project>
 </coverage>

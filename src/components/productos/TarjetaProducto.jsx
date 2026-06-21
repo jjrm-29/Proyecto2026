@@ -10,12 +10,8 @@ const TarjetasProductos = ({
   abrirModalEliminacion,
   generarQRImagen
 }) => {
-  const [cargando, setCargando] = useState(true);
+  const cargando = !(productos && productos.length > 0);
   const [idTarjetaActiva, setIdTarjetaActiva] = useState(null);
-
-  useEffect(() => {
-    setCargando(!(productos && productos.length > 0));
-  }, [productos]);
 
   const manejarTeclaEscape = useCallback((evento) => {
     if (evento.key === "Escape") setIdTarjetaActiva(null);

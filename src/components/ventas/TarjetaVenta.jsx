@@ -6,12 +6,8 @@ const TarjetaVenta = ({
   ventas,
   abrirEdicion,
 }) => {
-  const [cargando, setCargando] = useState(true);
+  const cargando = !(ventas && ventas.length > 0);
   const [idTarjetaActiva, setIdTarjetaActiva] = useState(null);
-
-  useEffect(() => {
-    setCargando(!(ventas && ventas.length > 0));
-  }, [ventas]);
 
   const manejarTeclaEscape = useCallback((evento) => {
     if (evento.key === "Escape") setIdTarjetaActiva(null);

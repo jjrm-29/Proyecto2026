@@ -254,7 +254,7 @@ const Clientes = () => {
 
       await cargarClientes();
 
-    } catch (err) {
+    } catch {
 
       setToast({
         mostrar: true,
@@ -298,7 +298,7 @@ const Clientes = () => {
 
       setClientes(data || []);
 
-    } catch (err) {
+    } catch {
 
       setToast({
         mostrar: true,
@@ -362,7 +362,7 @@ const Clientes = () => {
         tipo: "exito",
       });
 
-    } catch (err) {
+    } catch {
 
       setToast({
         mostrar: true,
@@ -439,7 +439,7 @@ const Clientes = () => {
         tipo: "exito",
       });
 
-    } catch (err) {
+    } catch {
 
       setToast({
         mostrar: true,

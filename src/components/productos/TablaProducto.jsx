@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Table, Spinner, Button, Image } from "react-bootstrap";
 import "bootstrap-icons/font/bootstrap-icons.css";
 
@@ -8,15 +8,7 @@ const TablaProductos = ({
     abrirModalEliminacion,
     generarQRImagen
 }) => {
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        if (productos && productos.length > 0) {
-            setLoading(false);
-        } else {
-            setLoading(true);
-        }
-    }, [productos]);
+    const loading = !(productos && productos.length > 0);
 
     return (
         <>
